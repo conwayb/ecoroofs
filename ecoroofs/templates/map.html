@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% load arc %}
+{% load ecoroofs %}
+{% load staticfiles %}
+
+{% block css %}
+    {{ block.super }}
+    {% if debug %}
+        <link href="{% static 'node_modules/openlayers/dist/ol.css' %}" rel="stylesheet">
+    {% else %}
+        <link href="{% cdn_url 'ol-css' %}" rel="stylesheet">
+    {% endif %}
+    <link href="{% static 'map/main.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <ecoroofs-map></ecoroofs-map>
+{% endblock %}
+
+{% block js %}
+    {{ block.super }}
+    {% systemjs_block 'map' 'ol-js' %}
+{% endblock %}

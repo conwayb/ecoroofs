@@ -1,0 +1,68 @@
+<!doctype html>
+
+{% load arc %}
+{% load staticfiles %}
+
+<html>
+    <head>
+        <title>{{ PROJECT.title }}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% block css %}
+            <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        {% endblock %}
+    </head>
+
+    <body>
+        <md-toolbar ng-cloak>
+            <div class="md-toolbar-tools">
+                <h1>
+                    <a href="/">{{ PROJECT.title }}</a>
+                </h1>
+                <span flex></span>
+                {% if user.is_authenticated %}
+                    <md-menu>
+                        <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)">
+                            <md-icon>account_circle</md-icon>
+                        </md-button>
+                        <md-menu-content width="4">
+                            <md-menu-item>
+                                <span>
+                                    <md-icon>account_circle</md-icon>
+                                    {{ user.get_full_name }}
+                                </span>
+                            </md-menu-item>
+                            <md-divider></md-divider>
+                            {% if user.is_staff or user.is_superuser %}
+                                <md-menu-item>
+                                    <md-button ng-href="/admin">Admin</md-button>
+                                </md-menu-item>
+                            {% endif %}
+                            {% if user.is_superuser %}
+                                <md-menu-item>
+                                    <md-button ng-href="/django-admin">Django Admin</md-button>
+                                </md-menu-item>
+                            {% endif %}
+                            <md-divider></md-divider>
+                            <md-menu-item>
+                                <md-button href="{% url 'logout' %}" class="md-warn">
+                                    <md-icon>exit_to_app</md-icon>
+                                    Log out
+                                </md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                {% endif %}
+            </div>
+        </md-toolbar>
+
+        <div id="content">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        {% block js %}
+            <script>APP_CONFIG = {{ JS_APP_CONFIG|jsonify }};</script>
+        {% endblock %}
+    </body>
+</html>

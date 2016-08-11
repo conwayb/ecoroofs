@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
 
@@ -8,10 +9,11 @@ from . import views
 
 urlpatterns = [
     # Home
-    url(r'^$', views.home),
+    url(r'^$', views.JSAppView.as_view(template_name=settings.HOME_PAGE_TEMPLATE)),
+    url(r'^admin$', views.JSAppView.as_view(template_name='admin.html')),
 
     # Admin
-    url(r'^admin/', admin.site.urls),
+    url(r'^django-admin/', admin.site.urls),
 
     # Auth
     url(r'', include(arcutils.cas.urls)),

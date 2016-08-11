@@ -1,20 +1,20 @@
 # Root
 /*.egg-info/
-/*/static/vendor/
 /.env/
 /build/
 /dist/
 /media/
-/node_modules/
 /static/
 /local.cfg
 /local.dev.cfg
 /local.prod.cfg
 /local.stage.cfg
 /local.test.cfg
+/*/static/bundles/
+/*/static/node_modules/
+/*/static/**/*.css
 
 # Anywhere
 __pycache__/
 *.pyc
 *.pyo
-main-built.js
