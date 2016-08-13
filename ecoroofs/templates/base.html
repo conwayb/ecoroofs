@@ -52,6 +52,10 @@
                             </md-menu-item>
                         </md-menu-content>
                     </md-menu>
+                {% else %}
+                    <md-button href="{% url 'login' %}" class="md-icon-button" title="Log in">
+                        <md-icon>account_circle</md-icon>
+                    </md-button>
                 {% endif %}
             </div>
         </md-toolbar>
