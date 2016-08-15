@@ -23,4 +23,5 @@ urlpatterns = [
 ]
 
 router = DefaultRouter()
+router.register(r'locations', LocationViewSet)
 urlpatterns += router.urls
