@@ -13,6 +13,7 @@ urlpatterns = [
     # Home
     url(r'^$', views.AppView.as_view(app_key=settings.HOME_PAGE_APP_KEY), name='home'),
     url(r'^admin$', views.AppView.as_view(app_key='admin'), name='admin'),
+    url(r'^map$', views.AppView.as_view(app_key='map'), name='map'),
 
     # Admin
     url(r'^django-admin/', admin.cas_site.urls),
