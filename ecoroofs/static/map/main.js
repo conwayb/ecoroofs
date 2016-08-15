@@ -8,6 +8,7 @@ const ecoroofsMap = angular
         'ngMaterial'
     ])
     .config(commonConfig)
+    .constant('appConfig', APP_CONFIG)
     .component('ecoroofsMap', MapComponent)
 
 angular.bootstrap(document.body, [ecoroofsMap.name]);

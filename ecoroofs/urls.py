@@ -11,8 +11,8 @@ from .locations.views import LocationViewSet
 
 urlpatterns = [
     # Home
-    url(r'^$', views.JSAppView.as_view(template_name=settings.HOME_PAGE_TEMPLATE), name='home'),
-    url(r'^admin$', views.JSAppView.as_view(template_name='admin.html')),
+    url(r'^$', views.AppView.as_view(app_key=settings.HOME_PAGE_APP_KEY), name='home'),
+    url(r'^admin$', views.AppView.as_view(app_key='admin'), name='admin'),
 
     # Admin
     url(r'^django-admin/', admin.cas_site.urls),

@@ -8,8 +8,18 @@
         <title>{{ PROJECT.title }}</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
         {% block css %}
-            <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+            {% block cdn_css %}
+                <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+                {% for cdn_url in APP.cdn_urls.css %}
+                    <link href="{% cdn_url cdn_url %}" rel="stylesheet">
+                {% endfor %}
+            {% endblock %}
+
+            {% block app_css %}
+                <link href="{% static APP.css_path %}" rel="stylesheet">
+            {% endblock %}
         {% endblock %}
     </head>
 
@@ -60,13 +70,34 @@
             </div>
         </md-toolbar>
 
-        <div id="content">
-            {% block content %}
-            {% endblock %}
-        </div>
+        {% block content %}
+            <{{ APP.element_name }}></{{ APP.element_name }}>
+        {% endblock %}
 
         {% block js %}
-            <script>APP_CONFIG = {{ JS_APP_CONFIG|jsonify }};</script>
+            <script>APP_CONFIG = {{ APP.app_config|jsonify }};</script>
+
+            {% block cdn_js %}
+                {% for cdn_url in APP.cdn_urls.js %}
+                    <script src="{% cdn_url cdn_url %}"></script>
+                {% endfor %}
+            {% endblock %}
+
+            {% block app_js %}
+                {% if debug %}
+                    <script src="{% static 'node_modules/core-js/client/shim.min.js' %}"></script>
+                    <script src="{% static 'node_modules/systemjs/dist/system.src.js' %}"></script>
+                    <script src="{% static 'systemjs.config.js' %}"></script>
+                    <script>
+                        System.import('{{ APP.key }}').catch(function (error) {
+                            console.error(error);
+                        });
+                    </script>
+                {% else %}
+                    <script src="{% static 'bundles/angular.bundle.js' %}"></script>
+                    <script src="{% static APP.bundle_path %}"></script>
+                {% endif %}
+            {% endblock %}
         {% endblock %}
     </body>
 </html>
