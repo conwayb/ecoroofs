@@ -2,22 +2,27 @@ import ol from 'ol';
 
 export default class Map extends ol.Map {
     constructor (options) {
-        let baseLayers = [
+        const center = ol.proj.fromLonLat(options.view.center);
+
+        const baseLayers = [
             new ol.layer.Tile({
                 source: new ol.source.OSM()
             })
         ];
 
-        let view = new ol.View({
-            center: ol.proj.fromLonLat([-122.667473, 45.523023]),
-            minZoom: 0,
-            maxZoom: 19,
-            zoom: 10
+
+
+        const view = new ol.View({
+            center: center,
+            minZoom: options.view.minZoom,
+            maxZoom: options.view.maxZoom,
+            zoom: options.view.zoom
         });
 
-        options.layers = baseLayers;
-        options.view = view;
-
-        super(options);
+        super({
+            layers: baseLayers,
+            target: options.target,
+            view: view
+        });
     }
 }

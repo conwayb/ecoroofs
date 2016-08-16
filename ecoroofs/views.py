@@ -64,6 +64,7 @@ class AppView(APIView):
                         'is_staff': user.is_staff,
                         'is_superuser': user.is_superuser,
                     },
+                    'map': settings.MAP,
                 },
             },
         })
