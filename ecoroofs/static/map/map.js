@@ -1,5 +1,6 @@
 import ol from 'ol';
 
+const pointRadius = 6;
 const projectionCode = 'EPSG:3857';
 
 export default class Map extends ol.Map {
@@ -36,7 +37,7 @@ export default class Map extends ol.Map {
     }
 }
 
-function makeFeatureLayer (baseURL, workspace, layerName, label) {
+function makeFeatureLayer (baseURL, workspace, layerName, label, style=null) {
     const url = `${baseURL}/wfs/${workspace}`;
     const typeName = `${workspace}:${layerName}`;
     const baseParams = [
@@ -57,6 +58,18 @@ function makeFeatureLayer (baseURL, workspace, layerName, label) {
                 const requestParams = `${baseParams}&bbox=${bboxParam}`;
                 return `${url}?${requestParams}`;
             }
+        }),
+        style: style || new ol.style.Style({
+            image: new ol.style.Circle({
+                radius: pointRadius,
+                stroke: new ol.style.Stroke({
+                    color: '#ffffff',
+                    width: 2
+                }),
+                fill: new ol.style.Fill({
+                    color: '#6a7f10',
+                })
+            })
         })
     })
 }
