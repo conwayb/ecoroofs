@@ -6,7 +6,7 @@ from arcutils.drf.routers import DefaultRouter
 import arcutils.cas.urls
 
 from . import views
-from .locations.views import LocationViewSet
+from .locations.models import Location
 
 
 urlpatterns = [
@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'', include(arcutils.cas.urls)),
 ]
 
+
 router = DefaultRouter()
-router.register(r'locations', LocationViewSet)
+router.register(r'locations', views.ModelViewSet.from_model(Location))
 urlpatterns += router.urls
