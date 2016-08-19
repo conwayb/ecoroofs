@@ -60,9 +60,9 @@ class AppView(APIView):
                     'baseURL': staticfiles_storage.url(''),
                     'user': {
                         'username': user.username,
-                        'full_name': user.get_full_name() if not user.is_anonymous() else None,
-                        'is_staff': user.is_staff,
-                        'is_superuser': user.is_superuser,
+                        'fullName': user.get_full_name() if not user.is_anonymous() else None,
+                        'isStaff': user.is_staff,
+                        'isSuperuser': user.is_superuser,
                     },
                     'map': settings.MAP,
                 },
