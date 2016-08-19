@@ -12,11 +12,10 @@ from .views import AppView, ModelViewSet
 urlpatterns = [
     # Home
     url(r'^$', AppView.as_view(app_key=settings.HOME_PAGE_APP_KEY), name='home'),
-    url(r'^admin$', AppView.as_view(app_key='admin'), name='admin'),
     url(r'^map$', AppView.as_view(app_key='map'), name='map'),
 
     # Admin
-    url(r'^django-admin/', admin.cas_site.urls),
+    url(r'^admin/', admin.cas_site.urls),
 
     # Auth
     url(r'', include(arcutils.cas.urls)),

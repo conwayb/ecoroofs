@@ -12,7 +12,7 @@ global.APP_CONFIG = {
 };
 
 // A list of our apps, relative to the static directory.
-const apps = ['admin', 'map'];
+const apps = ['map'];
 
 // Apps are traced to get dependencies trees.
 const traces = [];
@@ -56,9 +56,15 @@ apps.forEach((name) => {
 // First, create a bundle containing the common Angular dependencies
 // across all apps. Then, create a bundle for each app.
 Promise.all(traces).then((trees) => {
-    const commonTree = builder.intersectTrees.apply(this, trees);
+    let commonTree;
     const angularBundleName = 'angular.bundle.js';
     const angularBundlePath = path.join(bundleOutputDir, angularBundleName);
+
+    if (Object.keys(trees).length > 1) {
+        commonTree = builder.intersectTrees.apply(this, trees);
+    } else {
+        commonTree = trees[0];
+    }
 
     let angularTree = {};
     let angularPackages = [];

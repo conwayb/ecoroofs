@@ -48,11 +48,6 @@
                                     <md-button ng-href="/admin">Admin</md-button>
                                 </md-menu-item>
                             {% endif %}
-                            {% if user.is_superuser %}
-                                <md-menu-item>
-                                    <md-button ng-href="/django-admin">Django Admin</md-button>
-                                </md-menu-item>
-                            {% endif %}
                             <md-divider></md-divider>
                             <md-menu-item>
                                 <md-button href="{% url 'logout' %}" class="md-warn">

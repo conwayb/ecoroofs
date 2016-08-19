@@ -14,7 +14,6 @@
 
     // Our local packages, which are dynamically add to packages.
     const localPackages = [
-        'admin',
         'map'
     ]
 
