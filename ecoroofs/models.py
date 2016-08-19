@@ -1,22 +1,55 @@
+import uuid
+
 from django.db import models
-from django.db.models.signals import pre_save
-from django.dispatch import receiver
 from django.utils.text import slugify
 
 
-class SlugFieldMixin(models.Model):
+class UUIDPrimaryKeyField(models.UUIDField):
+
+    def __init__(self, *args, **kwargs):
+        kwargs['blank'] = True
+        kwargs['editable'] = False
+        kwargs['primary_key'] = True
+        kwargs.setdefault('default', uuid.uuid4)
+        super().__init__(*args, **kwargs)
+
+    def deconstruct(self):
+        name, path, args, kwargs = super().deconstruct()
+        kwargs.pop('blank', None)
+        kwargs.pop('editable', None)
+        kwargs.pop('primary_key', None)
+        return name, path, args, kwargs
+
+
+class UniqueDerivedSlugField(models.SlugField):
+
+    default_source_field = 'name'
+
+    def __init__(self, *args, **kwargs):
+        kwargs['unique'] = True
+        kwargs.setdefault('blank', True)
+        kwargs.setdefault('editable', False)
+        kwargs.setdefault('max_length', 255)
+        self.source_field = kwargs.pop('source_field', self.default_source_field)
+        super().__init__(*args, **kwargs)
+
+    def deconstruct(self):
+        name, path, args, kwargs = super().deconstruct()
+        if self.source_field != self.default_source_field:
+            kwargs['source_field'] = self.source_field
+        kwargs.pop('unique', None)
+        return name, path, args, kwargs
+
+    def pre_save(self, model_instance, add):
+        source_value = getattr(model_instance, self.source_field)
+        slug_value = slugify(source_value)
+        return slug_value
+
+
+class BaseModel(models.Model):
 
     class Meta:
         abstract = True
 
-    derive_slug_from = 'name'
-    slug = models.SlugField(max_length=255, unique=True, blank=True)
-
-
-@receiver(pre_save)
-def set_slug(sender, instance, **kwargs):
-    if issubclass(sender, SlugFieldMixin):
-        field = instance.derive_slug_from
-        value = getattr(instance, field)
-        slug = slugify(value)
-        instance.slug = slug
+    id = UUIDPrimaryKeyField()
+    slug = UniqueDerivedSlugField(source_field='name')

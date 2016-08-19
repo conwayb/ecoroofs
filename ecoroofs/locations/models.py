@@ -1,10 +1,10 @@
 from django.db import models
 from django.contrib.gis.db.models import PointField
 
-from ..models import SlugFieldMixin
+from ..models import BaseModel
 
 
-class Location(SlugFieldMixin):
+class Location(BaseModel):
 
     name = models.CharField(max_length=255, unique=True)
     point = PointField()
