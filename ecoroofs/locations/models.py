@@ -6,6 +6,9 @@ from ..models import BaseModel
 
 class Location(BaseModel):
 
+    class Meta:
+        ordering = ['name']
+
     name = models.CharField(max_length=255, unique=True)
     point = PointField()
 
