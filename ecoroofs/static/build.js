@@ -93,4 +93,5 @@ Promise.all(traces).then((trees) => {
     angularBundlePromise.catch((e) => console.error(e));
 }).catch((e) => {
     console.error(e);
+    process.exit(1);
 });
