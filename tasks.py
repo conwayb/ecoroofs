@@ -1,6 +1,8 @@
+import time
+
 from arctasks import *
 from arctasks.deploy import Deployer
-from arctasks.util import abort, print_header
+from arctasks.util import abort, confirm, print_header, print_warning
 
 
 @arctask(configured='dev', timed=True)
@@ -40,3 +42,27 @@ class EcoRoofsDeployer(Deployer):
 
 
 deploy.deployer_class = EcoRoofsDeployer
+
+
+@arctask(configured='dev', timed=True)
+def import_locations(ctx, file_name, recreate_db=False, dry_run=False, quiet=False):
+    """Import locations from CSV file provided by client."""
+    from arctasks.django import setup; setup()
+    from ecoroofs.locations import importer
+
+    location_importer = importer.Importer(file_name, dry_run=dry_run, quiet=quiet)
+
+    if recreate_db:
+        location_importer.print('Recreating database...')
+        if location_importer.real_run:
+            if ctx.env == 'dev' or confirm(ctx, 'Drop {db.name} database?', yes_values=['yes']):
+                createdb(ctx, drop=True)
+                migrate(ctx)
+            else:
+                abort()
+    else:
+        print_warning('Importing locations without recreating database.')
+        print_warning('This will likely FAIL due to duplicate key violations.')
+        time.sleep(2)
+
+    location_importer.run()
