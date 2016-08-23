@@ -67,7 +67,7 @@ function makeFeatureLayer (baseURL, workspace, layerName, label, style=null) {
                     width: 2
                 }),
                 fill: new ol.style.Fill({
-                    color: '#6a7f10',
+                    color: '#6a7f10'
                 })
             })
         })
