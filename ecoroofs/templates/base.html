@@ -46,7 +46,7 @@
                             <md-divider></md-divider>
                             {% if user.is_staff or user.is_superuser %}
                                 <md-menu-item>
-                                    <md-button ng-href="/admin">Admin</md-button>
+                                    <md-button ng-href="{% url 'admin:index' %}">Admin</md-button>
                                 </md-menu-item>
                             {% endif %}
                             <md-divider></md-divider>
