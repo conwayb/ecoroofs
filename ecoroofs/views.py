@@ -57,31 +57,35 @@ class AppView(APIView):
     def template_name(self):
         return '{self.app_key}.html'.format(self=self)
 
-    def get(self, request):
-        user = request.user
-        return Response({
-            'APP': {
-                'key': self.app_key,
-                'element_name': self.element_name,
-                'bundle_path': self.bundle_path,
-                'cdn_urls': {
-                    'css': [],
-                    'js': self.cdn_urls_js,
-                },
-                'css_path': self.css_path,
-
-                # Config that's passed through to the Angular app.
-                'app_config': {
-                    'env': settings.ENV,
-                    'elementSelector': self.element_name,
-                    'baseURL': staticfiles_storage.url(''),
-                    'user': {
-                        'username': user.username,
-                        'fullName': user.get_full_name() if not user.is_anonymous() else None,
-                        'isStaff': user.is_staff,
-                        'isSuperuser': user.is_superuser,
-                    },
-                    'map': settings.MAP,
-                },
+    @property
+    def js_app_context(self):
+        user = self.request.user
+        return {
+            'key': self.app_key,
+            'element_name': self.element_name,
+            'bundle_path': self.bundle_path,
+            'cdn_urls': {
+                'css': [],
+                'js': self.cdn_urls_js,
             },
+            'css_path': self.css_path,
+
+            # Config that's passed through to the JavaScript app.
+            'app_config': {
+                'env': settings.ENV,
+                'elementSelector': self.element_name,
+                'baseURL': staticfiles_storage.url(''),
+                'user': {
+                    'username': user.username,
+                    'fullName': user.get_full_name() if not user.is_anonymous() else None,
+                    'isStaff': user.is_staff,
+                    'isSuperuser': user.is_superuser,
+                },
+                'map': settings.MAP,
+            },
+        }
+
+    def get(self, request):
+        return Response({
+            'APP': self.js_app_context,
         })
