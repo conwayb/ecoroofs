@@ -11,6 +11,7 @@
 
         {% block css %}
             {% block cdn_css %}
+                <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet">
                 <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
                 {% for cdn_url in APP.cdn_urls.css %}
                     <link href="{% cdn_url cdn_url %}" rel="stylesheet">
