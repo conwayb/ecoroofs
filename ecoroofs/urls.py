@@ -5,7 +5,7 @@ from arcutils import admin
 from arcutils.drf.routers import DefaultRouter
 import arcutils.cas.urls
 
-from .locations.models import Location, Watershed
+from .locations.models import Location
 from .views import AppView, ModelViewSet
 
 
@@ -24,5 +24,4 @@ urlpatterns = [
 
 router = DefaultRouter()
 router.register(r'locations', ModelViewSet.from_model(Location))
-router.register(r'watersheds', ModelViewSet.from_model(Watershed))
 urlpatterns += router.urls
