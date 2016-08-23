@@ -23,10 +23,10 @@ setup(
         'pytz>=2016.6.1',
         'django-haystack>=2.4.1,<2.5',
         'elasticsearch>=1.9.0,<2.0',
+        'psu.oit.arc.tasks',
     ],
     extras_require={
         'dev': [
-            'psu.oit.arc.tasks',
             'flake8',
         ]
     },
