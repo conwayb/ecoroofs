@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load arc %}
+
+{% block content %}
+    <md-content class="standard-padding" ng-cloak>
+        <h2 class="md-title">{{ title }}</h2>
+        {% if description %}
+            <p class="md-subhead">
+                {{ description }}
+            </p>
+        {% endif %}
+        <div class="md-body-1">
+            {{ content|markdown }}
+        </div>
+    </md-content>
+{% endblock %}

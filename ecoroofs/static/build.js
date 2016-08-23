@@ -12,7 +12,7 @@ global.APP_CONFIG = {
 };
 
 // A list of our apps, relative to the static directory.
-const apps = ['map'];
+const apps = ['map', 'pages'];
 
 // Apps are traced to get dependencies trees.
 const traces = [];

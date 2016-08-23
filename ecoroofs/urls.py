@@ -7,6 +7,7 @@ import arcutils.cas.urls
 
 from .locations.models import Location
 from .views import AppView, ModelViewSet
+from .pages.views import PageView
 
 
 urlpatterns = [
@@ -19,6 +20,9 @@ urlpatterns = [
 
     # Auth
     url(r'', include(arcutils.cas.urls)),
+
+    # Pages
+    url(r'^pages/(?P<slug>.+)', PageView.as_view(), name='page'),
 ]
 
 

@@ -14,7 +14,8 @@
 
     // Our local packages, which are dynamically add to packages.
     const localPackages = [
-        'map'
+        'map',
+        'pages'
     ]
 
     const map = {

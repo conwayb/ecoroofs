@@ -21,6 +21,7 @@ setup(
         'django-pgcli>=0.0.2',
         'djangorestframework>=3.4.1',
         'elasticsearch>=1.9.0,<2.0',
+        'Markdown>=2.6.6',
         'psycopg2>=2.6.2',
         'pytz>=2016.6.1',
         'psu.oit.arc.tasks',
