@@ -8,7 +8,7 @@ export default class Map extends ol.Map {
         const center = ol.proj.fromLonLat(options.view.center);
         const serverOptions = options.server;
         const mapServerBaseURL = serverOptions.baseURL;
-        const workspace = `ecoroofs-${options.env}`;
+        const workspace = serverOptions.workspace;
 
         const baseLayers = [
             new ol.layer.Tile({
