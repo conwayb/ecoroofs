@@ -1,3 +1,4 @@
+package := ecoroofs
 venv ?= .env
 venv_python ?= python3.5
 bin = $(venv)/bin
@@ -39,16 +40,23 @@ deploy:
 	$(bin)/inv --echo configure --env $(to) deploy
 
 clean: clean-pyc
-clean-all: clean-build clean-dist clean-egg-info clean-pyc clean-venv
+clean-all: clean-build clean-dist clean-egg-info clean-node_modules clean-pyc clean-static clean-venv
 clean-build:
 	rm -rf build
 clean-dist:
 	rm -rf dist
 clean-egg-info:
 	rm -rf *.egg-info
+clean-node_modules:
+	rm -rf $(package)/static/node_modules
 clean-pyc:
 	find . -name __pycache__ -type d -print0 | xargs -0 rm -r
 	find . -name '*.py[co]' -type f -print0 | xargs -0 rm
+clean-static:
+	rm -rf static
+	rm -rf $(package)/static/bundles
+	find $(package)/static -name '*.css' -type f -print0 | xargs -0 rm
 
 .PHONY = init reinit test run deploy \
-         clean clean-all clean-build clean-dist clean-egg-info clean-pyc clean-venv
+         clean clean-all clean-build clean-dist clean-egg-info clean-node_modules clean-pyc \
+         clean-static clean-venv
