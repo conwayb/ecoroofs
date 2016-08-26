@@ -1,6 +1,7 @@
 import time
 
 from arctasks import *
+from arctasks import db
 from arctasks.deploy import Deployer
 from arctasks.util import abort, confirm, print_header, print_warning
 
@@ -52,11 +53,11 @@ def import_locations(ctx, file_name='locations.csv', reset_db=False, dry_run=Fal
 
     location_importer = importer.Importer(file_name, dry_run=dry_run, quiet=quiet)
 
-    if recreate_db:
+    if reset_db:
         location_importer.print('Recreating database...')
         if location_importer.real_run:
             if ctx.env == 'dev' or confirm(ctx, 'Drop {db.name} database?', yes_values=['yes']):
-                createdb(ctx, drop=True)
+                db.reset_db(ctx, truncate=True)
                 migrate(ctx)
             else:
                 abort()
