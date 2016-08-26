@@ -45,7 +45,7 @@ deploy.deployer_class = EcoRoofsDeployer
 
 
 @arctask(configured='dev', timed=True)
-def import_locations(ctx, file_name, recreate_db=False, dry_run=False, quiet=False):
+def import_locations(ctx, file_name='locations.csv', reset_db=False, dry_run=False, quiet=False):
     """Import locations from CSV file provided by client."""
     from arctasks.django import setup; setup()
     from ecoroofs.locations import importer
