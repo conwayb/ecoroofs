@@ -1,5 +1,7 @@
 import csv
 import re
+import sys
+import time
 
 from .models import *  # noqa
 
@@ -67,8 +69,9 @@ class Importer:
 
     """
 
-    def __init__(self, file_name, dry_run=False, quiet=False):
+    def __init__(self, file_name, overwrite=False, dry_run=False, quiet=False):
         self.file_name = file_name
+        self.overwrite = overwrite
         self.dry_run = dry_run
         self.real_run = not dry_run
         self.quiet = quiet
@@ -80,9 +83,23 @@ class Importer:
             print(*args, **kwargs)
 
     def run(self):
+        if self.overwrite:
+            self.do_overwrite()
+        elif Location.objects.count():
+            print('Importing locations without removing existing records.', file=sys.stderr)
+            print('This will likely FAIL due to duplicate key violations.', file=sys.stderr)
+            time.sleep(5)
         data = self.read_data()
         self.column_to_table(data, Watershed)
         self.insert_locations(data)
+
+    def do_overwrite(self):
+        self.print('Removing existing locations...')
+        if self.real_run:
+            Location.objects.all().delete()
+        self.print('Removing existing watersheds...')
+        if self.real_run:
+            Watershed.objects.all().delete()
 
     def read_data(self):
         with open(self.file_name) as fp:
@@ -109,7 +126,8 @@ class Importer:
 
             if name is None:
                 self.print(
-                    'Name (and project) not set for location: {row}; skipping'.format_map(locals()))
+                    'Name (and project) not set for location: {row}; skipping'
+                    .format_map(locals()))
                 continue
 
             i = 1
