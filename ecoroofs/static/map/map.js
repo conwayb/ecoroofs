@@ -16,11 +16,15 @@ export default class Map extends ol.Map {
             })
         ];
 
+        const wmsLayers = [
+            makeWMSLayer(mapServerBaseURL, workspace, 'neighborhoods', 'Neighborhoods')
+        ];
+
         const featureLayers = [
             makeFeatureLayer(mapServerBaseURL, workspace, 'locations', 'Locations')
         ];
 
-        const allLayers = [].concat(baseLayers, featureLayers);
+        const allLayers = [].concat(baseLayers, wmsLayers, featureLayers);
 
         const view = new ol.View({
             center: center,
@@ -35,6 +39,20 @@ export default class Map extends ol.Map {
             view: view
         });
     }
+}
+
+function makeWMSLayer (baseURL, workspace, layerName, label) {
+    return new ol.layer.Tile({
+        label: label,
+        opacity: 0.5,
+        source: new ol.source.TileWMS({
+            url: [baseURL, 'wms', workspace].join('/'),
+            serverType: 'geoserver',
+            params: {
+                LAYERS: `${workspace}:${layerName}`
+            }
+        })
+    });
 }
 
 function makeFeatureLayer (baseURL, workspace, layerName, label, style=null) {

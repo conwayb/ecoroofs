@@ -49,3 +49,27 @@ def import_locations(ctx, file_name='locations.csv', overwrite=False, dry_run=Fa
     from ecoroofs.locations.importer import Importer
     location_importer = Importer(file_name, overwrite=overwrite, dry_run=dry_run, quiet=quiet)
     location_importer.run()
+
+
+@arctask(configured='dev', timed=True)
+def import_neighborhoods(ctx, path='rlis/nbo_hood', from_srid=None, overwrite=True, dry_run=False,
+                         quiet=False):
+    """Import neighborhoods from RLIS shapefile.
+
+    We overwrite by default because doing so should be safe.
+
+    The neighborhoods shapefile can be downloaded from Metro's RLIS
+    Discovery site::
+
+        http://rlisdiscovery.oregonmetro.gov/?action=viewDetail&layerID=237
+
+    This task expects the shapefile directory to be at ``rlis/nbo_hood``
+    by default, but it can be located anywhere if you pass the
+    corresponding ``--path`` option.
+
+    """
+    from arctasks.django import setup; setup()
+    from ecoroofs.neighborhoods.importer import Importer
+    location_importer = Importer(
+        path, from_srid=from_srid, overwrite=overwrite, dry_run=dry_run, quiet=quiet)
+    location_importer.run()

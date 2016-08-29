@@ -5,6 +5,7 @@
 /dist/
 /geoserver/data_dir/
 /media/
+/rlis/
 /static/
 /local.cfg
 /local.dev.cfg
