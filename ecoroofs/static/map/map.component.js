@@ -5,7 +5,6 @@ const MapComponent = {
     controller: function (appConfig) {
         const target = document.querySelector(appConfig.elementSelector);
         const options = Object.assign({}, appConfig.map, {
-            env: appConfig.env,
             target: target
         });
         this.target = target;
