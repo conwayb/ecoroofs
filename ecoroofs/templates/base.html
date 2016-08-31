@@ -7,7 +7,10 @@
     <head>
         <title>{{ PROJECT.title }}</title>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        {% block meta %}
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+        {% endblock %}
 
         {% block css %}
             {% block cdn_css %}
