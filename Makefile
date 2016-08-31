@@ -13,7 +13,7 @@ init: $(venv) local.dev.cfg local.docker.cfg local.test.cfg $(arctasks)
 
 reinit: clean-egg-info clean-pyc clean-venv init
 
-docker-init:
+docker-init: local.docker.cfg
 	@if ! which docker >/dev/null; then \
 	    echo "docker is not installed or not on PATH" >&2; \
 	    exit 1; \
