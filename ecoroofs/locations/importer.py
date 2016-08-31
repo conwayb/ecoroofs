@@ -1,7 +1,9 @@
 import csv
 import re
-import sys
 import time
+from sys import stderr
+
+from arcutils.colorize import printer
 
 from .models import *  # noqa
 
@@ -86,8 +88,8 @@ class Importer:
         if self.overwrite:
             self.do_overwrite()
         elif Location.objects.count():
-            print('Importing locations without removing existing records.', file=sys.stderr)
-            print('This will likely FAIL due to duplicate key violations.', file=sys.stderr)
+            printer.warning('Importing locations without removing existing records.', file=stderr)
+            printer.warning('This will likely FAIL due to duplicate key violations.', file=stderr)
             time.sleep(5)
         data = self.read_data()
         self.column_to_table(data, Watershed)
