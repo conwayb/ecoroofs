@@ -19,6 +19,9 @@
             {% endblock %}
 
             {% block app_css %}
+                {% for path in APP.static_paths.css %}
+                    <link href="{% static path %}" rel="stylesheet">
+                {% endfor %}
                 <link href="{% static APP.css_path %}" rel="stylesheet">
             {% endblock %}
         {% endblock %}
@@ -90,6 +93,9 @@
                         });
                     </script>
                 {% else %}
+                    {% for path in APP.static_paths.js %}
+                        <script src="{% static path %}"></script>
+                    {% endfor %}
                     <script src="{% static 'bundles/angular.bundle.js' %}"></script>
                     <script src="{% static APP.bundle_path %}"></script>
                 {% endif %}

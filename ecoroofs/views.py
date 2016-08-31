@@ -56,6 +56,23 @@ class AppView(APIView):
         return get_setting(setting, [])
 
     @property
+    def static_paths(self):
+        return {
+            'css': self.static_paths_css,
+            'js': self.static_paths_js,
+        }
+
+    @property
+    def static_paths_css(self):
+        setting = 'APPS.{self.app_key}.static_paths.css'.format(self=self)
+        return get_setting(setting, [])
+
+    @property
+    def static_paths_js(self):
+        setting = 'APPS.{self.app_key}.static_paths.js'.format(self=self)
+        return get_setting(setting, [])
+
+    @property
     def element_name(self):
         # E.g., "ecoroofs-map"
         return '{settings.PACKAGE}-{self.app_key}'.format(settings=settings, self=self)
@@ -73,6 +90,7 @@ class AppView(APIView):
             'bundle_path': self.bundle_path,
             'cdn_urls': self.cdn_urls,
             'css_path': self.css_path,
+            'static_paths': self.static_paths,
 
             # Config that's passed through to the JavaScript app.
             'app_config': {
