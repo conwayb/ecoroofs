@@ -39,6 +39,13 @@ class AppView(APIView):
         return '{self.app_key}/main.css'.format(self=self)
 
     @property
+    def cdn_urls(self):
+        return {
+            'css': self.cdn_urls_css,
+            'js': self.cdn_urls_js,
+        }
+
+    @property
     def cdn_urls_css(self):
         setting = 'APPS.{self.app_key}.cdn_urls.css'.format(self=self)
         return get_setting(setting, [])
@@ -64,10 +71,7 @@ class AppView(APIView):
             'key': self.app_key,
             'element_name': self.element_name,
             'bundle_path': self.bundle_path,
-            'cdn_urls': {
-                'css': [],
-                'js': self.cdn_urls_js,
-            },
+            'cdn_urls': self.cdn_urls,
             'css_path': self.css_path,
 
             # Config that's passed through to the JavaScript app.
