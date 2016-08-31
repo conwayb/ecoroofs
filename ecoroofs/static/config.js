@@ -1,4 +1,10 @@
-export default function commonConfig ($mdThemingProvider) {
+export default function commonConfig ($compileProvider, $mdThemingProvider) {
+    if (!APP_CONFIG.debug) {
+        // Disable debug data in production.
+        // See https://docs.angularjs.org/guide/production.
+        $compileProvider.debugInfoEnabled(false);
+    }
+
     $mdThemingProvider.definePalette('psuGreen', {
         '50': '#c1e42a',
         '100': '#b6da1b',
