@@ -4,6 +4,17 @@
     display: none;
 }
 
+.invisible {
+    visibility: hidden;
+}
+
 .standard-padding {
     padding: 8px;
+}
+
+// Global activity indicator
+#activity-indicator {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }

@@ -1,4 +1,6 @@
-export default function commonConfig ($compileProvider, $httpProvider, $mdThemingProvider) {
+import angular from 'angular';
+
+export function commonConfig ($compileProvider, $httpProvider, $mdThemingProvider) {
     if (!APP_CONFIG.debug) {
         // Disable debug data in production.
         // See https://docs.angularjs.org/guide/production.
@@ -72,4 +74,19 @@ export default function commonConfig ($compileProvider, $httpProvider, $mdThemin
         .primaryPalette('psuGreen')
         .accentPalette('psuLightGreen')
         .warnPalette('psuRed')
+}
+
+export function commonRun ($rootScope, $http, $timeout) {
+    const activityEl = angular.element(document.getElementById('activity-indicator'));
+    $rootScope.$watch(function () {
+        return $http.pendingRequests.length;
+    }, function (newLength, oldLength) {
+        if (newLength > 0) {
+            activityEl.removeClass('invisible');
+        } else {
+            $timeout(function () {
+                activityEl.addClass('invisible');
+            }, 500);
+        }
+    });
 }
