@@ -5,6 +5,7 @@ from sys import stderr
 
 from arcutils.colorize import printer
 
+from ..neighborhoods.models import Neighborhood
 from .models import *  # noqa
 
 
@@ -85,6 +86,8 @@ class Importer:
             print(*args, **kwargs)
 
     def run(self):
+        if Neighborhood.objects.count() == 0:
+            printer.warning('WARNING: Neighborhoods have not been imported.', file=stderr)
         if self.overwrite:
             self.do_overwrite()
         elif Location.objects.count():
@@ -155,6 +158,7 @@ class Importer:
                 point=point,
                 watershed=watershed,
             )
+            location.set_neighborhood_automatically()
             locations.append(location)
 
         num_locations = len(locations)
