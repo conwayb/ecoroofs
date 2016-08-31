@@ -1,9 +1,12 @@
-export default function commonConfig ($compileProvider, $mdThemingProvider) {
+export default function commonConfig ($compileProvider, $httpProvider, $mdThemingProvider) {
     if (!APP_CONFIG.debug) {
         // Disable debug data in production.
         // See https://docs.angularjs.org/guide/production.
         $compileProvider.debugInfoEnabled(false);
     }
+
+    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+    $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
 
     $mdThemingProvider.definePalette('psuGreen', {
         '50': '#c1e42a',
