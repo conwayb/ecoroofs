@@ -1,4 +1,5 @@
 from arctasks import *
+from arctasks import db
 from arctasks.deploy import Deployer
 from arctasks.util import abort, print_header
 
@@ -40,6 +41,18 @@ class EcoRoofsDeployer(Deployer):
 
 
 deploy.deployer_class = EcoRoofsDeployer
+
+
+@arctask(configured='dev', timed=True)
+def import_all(ctx, reset_db=False,
+               neighborhoods_shapefile_path='rlis/nbo_hood', from_srid=None,
+               locations_file_name='locations.csv',
+               overwrite=False, dry_run=False, quiet=False):
+    if reset_db:
+        db.reset_db(ctx)
+        migrate(ctx)
+    import_neighborhoods(ctx, neighborhoods_shapefile_path, from_srid, overwrite, dry_run, quiet)
+    import_locations(ctx, locations_file_name, overwrite, dry_run, quiet)
 
 
 @arctask(configured='dev', timed=True)
