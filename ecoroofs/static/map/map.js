@@ -56,13 +56,12 @@ function makeWMSLayer (baseURL, workspace, layerName, label) {
 }
 
 function makeFeatureLayer (baseURL, workspace, layerName, label, style=null) {
-    const url = `${baseURL}/wfs/${workspace}`;
-    const typeName = `${workspace}:${layerName}`;
+    const url = `${baseURL}/wfs`;
     const baseParams = [
         'service=WFS',
-        'version=1.1.0',
+        'version=2.0.0',
         'request=GetFeature',
-        `typeName=${typeName}`,
+        `typeNames=${workspace}:${layerName}`,
         `srsName=${projectionCode}`,
         'outputFormat=application/json'
     ].join('&');
