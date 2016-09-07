@@ -29,75 +29,27 @@ class AppView(APIView):
 
     app_key = settings.HOME_PAGE_APP_KEY
     renderer_classes = [TemplateHTMLRenderer]
+    template_name = None
 
-    @property
-    def bundle_path(self):
-        return 'bundles/{self.app_key}.bundle.js'.format(self=self)
-
-    @property
-    def css_path(self):
-        return '{self.app_key}/main.css'.format(self=self)
-
-    @property
-    def cdn_urls(self):
-        return {
-            'css': self.cdn_urls_css,
-            'js': self.cdn_urls_js,
-        }
-
-    @property
-    def cdn_urls_css(self):
-        setting = 'APPS.{self.app_key}.cdn_urls.css'.format(self=self)
-        return get_setting(setting, [])
-
-    @property
-    def cdn_urls_js(self):
-        setting = 'APPS.{self.app_key}.cdn_urls.js'.format(self=self)
-        return get_setting(setting, [])
-
-    @property
-    def static_paths(self):
-        return {
-            'css': self.static_paths_css,
-            'js': self.static_paths_js,
-        }
-
-    @property
-    def static_paths_css(self):
-        setting = 'APPS.{self.app_key}.static_paths.css'.format(self=self)
-        return get_setting(setting, [])
-
-    @property
-    def static_paths_js(self):
-        setting = 'APPS.{self.app_key}.static_paths.js'.format(self=self)
-        return get_setting(setting, [])
-
-    @property
-    def element_name(self):
-        # E.g., "ecoroofs-map"
-        return '{settings.PACKAGE}-{self.app_key}'.format(settings=settings, self=self)
-
-    @property
-    def template_name(self):
-        return '{self.app_key}.html'.format(self=self)
-
-    @property
-    def js_app_context(self):
-        user = self.request.user
-        return {
-            'key': self.app_key,
-            'element_name': self.element_name,
-            'bundle_path': self.bundle_path,
-            'cdn_urls': self.cdn_urls,
-            'css_path': self.css_path,
-            'static_paths': self.static_paths,
+    def get(self, request):
+        user = request.user
+        return Response({
+            'CDN_URLS': {
+                'css': get_setting('CDN_URLS.css'),
+                'js': get_setting('CDN_URLS.js'),
+            },
+            'STATIC_PATHS': {
+                'css': get_setting('STATIC_PATHS.css'),
+                'js': get_setting('STATIC_PATHS.js'),
+            },
 
             # Config that's passed through to the JavaScript app.
-            'app_config': {
+            'APP_CONFIG': {
                 'env': settings.ENV,
-                'elementSelector': self.element_name,
                 'baseURL': staticfiles_storage.url(''),
+                'title': settings.PROJECT.title,
                 'user': {
+                    'isAuthenticated': user.is_authenticated(),
                     'username': user.username,
                     'fullName': user.get_full_name() if not user.is_anonymous() else None,
                     'isStaff': user.is_staff,
@@ -105,9 +57,4 @@ class AppView(APIView):
                 },
                 'map': settings.MAP,
             },
-        }
-
-    def get(self, request):
-        return Response({
-            'APP': self.js_app_context,
         })

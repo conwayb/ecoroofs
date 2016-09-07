@@ -1,5 +1,3 @@
-import posixpath
-
 from django.db import models
 from django.core.urlresolvers import reverse
 
@@ -20,8 +18,8 @@ class Page(BaseModel, CachedPropertyInvalidatorMixin):
     published = models.BooleanField(default=False)
 
     @cached_property('slug')
-    def url(self):
-        return posixpath.join(reverse('page', kwargs={'slug': self.slug}))
+    def path(self):
+        return reverse('page-detail', kwargs={'slug': self.slug})
 
     def __str__(self):
-        return '{self.title} at {self.url}'.format(self=self)
+        return '{self.title} at {self.path}'.format(self=self)

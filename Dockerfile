@@ -38,7 +38,6 @@ RUN ${VENV_DIR}/bin/pip install \
 WORKDIR ${STATIC_SOURCE_DIR}
 RUN npm install >/dev/null
 RUN ./node_modules/.bin/node-sass -o . base.scss
-RUN ./node_modules/.bin/node-sass -o map map/main.scss
 RUN node build.js
 
 WORKDIR ${SOURCE_DIR}

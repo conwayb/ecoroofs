@@ -1,11 +1,11 @@
 import Map from './map';
 
 const MapComponent = {
-    template: '',
-    controller: function (appConfig) {
-        const target = document.querySelector(appConfig.elementSelector);
+    controller: function ($http, appConfig) {
+        const target = document.querySelector('ecoroofs-map');
         const options = Object.assign({}, appConfig.map, {
-            target: target
+            target: target,
+            $http: $http
         });
         this.target = target;
         this.map = new Map(options);

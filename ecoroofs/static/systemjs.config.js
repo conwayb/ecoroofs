@@ -12,10 +12,14 @@
         'angular-route'
     ];
 
-    // Our local packages, which are dynamically add to packages.
+    // Our local packages, which are dynamically added to packages.
     const localPackages = [
+        'app',
+        'config',
         'map',
-        'pages'
+        'pages',
+        'toolbar',
+        'sidenav'
     ]
 
     const map = {
@@ -26,9 +30,6 @@
     };
 
     const packages = {
-        '': {
-            defaultExtension: 'js'
-        },
         'ol': {
             main: 'ol',
             defaultExtension: 'js'

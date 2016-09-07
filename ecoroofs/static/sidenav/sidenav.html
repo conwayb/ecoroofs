@@ -1,0 +1,45 @@
+<md-sidenav md-component-id="sidenav-left" ng-cloak>
+    <md-content>
+        <div layout="row" layout-padding layout-align="start center">
+            <h1 class="md-title no-margin" flex>{{ $ctrl.appConfig.title }}</h1>
+            <md-button title="Hide sidebar"
+                       class="md-icon-button no-margin"
+                       ng-click="$ctrl.close()">
+                <md-icon>chevron_left</md-icon>
+            </md-button>
+        </div>
+
+        <md-divider></md-divider>
+
+        <div layout="column" layout-padding>
+            <a href="#!/">Home</a>
+            <a ng-repeat="page in $ctrl.pages"
+               ng-href="#!/pages/{{ page.slug }}"
+               ng-click="$ctrl.close()">{{ page.title }}</a>
+        </div>
+
+        <md-divider></md-divider>
+
+        <div ng-if="!$ctrl.user.isAuthenticated" layout="column" layout-padding>
+            <a title="Log in" href="/login">
+                <md-icon>account_circle</md-icon>
+                Log in
+            </a>
+        </div>
+
+        <div ng-if="$ctrl.user.isAuthenticated" layout="column" layout-padding>
+            <span><b>{{ $ctrl.user.fullName }}</b></span>
+            <a href="/admin/" ng-if="$ctrl.user.isStaff">Admin</a>
+            <a href="/logout" title="Log out" class="md-warn">
+                <md-icon class="md-warn no-margin">exit_to_app</md-icon>
+                Log out
+            </a>
+        </div>
+
+        <md-divider></md-divider>
+
+        <div layout="column" layout-padding>
+            <span>&copy; 2016 Portland State University</span>
+        </div>
+    </md-content>
+</md-sidenav>

@@ -1,31 +1,35 @@
-from django.conf import settings
 from django.conf.urls import include, url
+
+from rest_framework import serializers
 
 from arcutils import admin
 from arcutils.drf.routers import DefaultRouter
 import arcutils.cas.urls
 
-from .locations.models import Location
+from .serializers import ModelSerializer
 from .views import AppView, ModelViewSet
-from .pages.views import PageView
+
+from .locations.models import Location
+from .pages.models import Page
 
 
 urlpatterns = [
     # Home
-    url(r'^$', AppView.as_view(app_key=settings.HOME_PAGE_APP_KEY), name='home'),
-    url(r'^map$', AppView.as_view(app_key='map'), name='map'),
+    url(r'^$', AppView.as_view(template_name='base.html'), name='home'),
 
     # Admin
     url(r'^admin/', admin.cas_site.urls),
 
     # Auth
     url(r'', include(arcutils.cas.urls)),
-
-    # Pages
-    url(r'^pages/(?P<slug>.+)', PageView.as_view(), name='page'),
 ]
 
 
 router = DefaultRouter()
 router.register(r'_/locations', ModelViewSet.from_model(Location))
+router.register(r'_/pages', ModelViewSet.from_model(
+    Page,
+    queryset=Page.objects.filter(published=True),
+    serializer_class=ModelSerializer.from_model(Page, path=serializers.CharField()),
+))
 urlpatterns += router.urls

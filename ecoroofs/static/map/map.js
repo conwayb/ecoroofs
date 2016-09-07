@@ -1,7 +1,26 @@
 import ol from 'ol';
 
+const minResolution = 0.29858214173896974;
+
+// Use the same resolution for all GetFeatureInfo requests so feature
+// outlines don't look wonky when zooming in and out. We don't use the
+// minimum resolution so the returned geometry isn't too complex (which
+// can seriously bog down the browser).
+const getFeatureInfoResolution = minResolution * Math.pow(2, 5);
+
 const pointRadius = 6;
+
 const projectionCode = 'EPSG:3857';
+const geographicProjectionCode = 'EPSG:4326';
+const projection = ol.proj.get(projectionCode);
+const geographicProjection = ol.proj.get(geographicProjectionCode);
+
+const geojsonFormat = new ol.format.GeoJSON({
+    defaultDataProjection: geographicProjection
+});
+
+const psuGreen = '#6a7f10';
+const psuGreenRGB = '106,127,16';
 
 export default class Map extends ol.Map {
     constructor (options) {
@@ -10,6 +29,39 @@ export default class Map extends ol.Map {
         const mapServerBaseURL = serverOptions.baseURL;
         const workspace = serverOptions.workspace;
 
+        const neighborhoodLayerBreakpoint = minResolution * Math.pow(2, 3);
+        const neighborhoodLayerMaxResolution = minResolution * Math.pow(2, 11);
+        const neighborhoodLayer = makeWMSLayer(mapServerBaseURL, workspace, 'neighborhoods', {
+            label: 'Neighborhoods',
+            minResolution: neighborhoodLayerBreakpoint,
+            maxResolution: neighborhoodLayerMaxResolution,
+            opacity: 0.4
+        });
+
+        const neighborhoodLayerMax = makeWMSLayer(mapServerBaseURL, workspace, 'neighborhoods', {
+            label: 'Neighborhoods',
+            maxResolution: neighborhoodLayerBreakpoint,
+            opacity: 0.2,
+            source: neighborhoodLayer.getSource()
+        });
+
+        const neighborhoodHighlightLayerMinResolution = minResolution * Math.pow(2, 4);
+        const neighborhoodHighlightSource = new ol.source.Vector();
+        const neighborhoodHighlightLayer = new ol.layer.Vector({
+            minResolution: neighborhoodHighlightLayerMinResolution,
+            maxResolution: neighborhoodLayerMaxResolution,
+            source: neighborhoodHighlightSource,
+            style: new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    color: 'white',
+                    width: 2
+                }),
+                fill: new ol.style.Fill({
+                    color: `rgba(${psuGreenRGB}, 0.25)`
+                })
+            })
+        });
+
         const baseLayers = [
             new ol.layer.Tile({
                 source: new ol.source.OSM()
@@ -17,14 +69,19 @@ export default class Map extends ol.Map {
         ];
 
         const wmsLayers = [
-            makeWMSLayer(mapServerBaseURL, workspace, 'neighborhoods', 'Neighborhoods')
+            neighborhoodLayer,
+            neighborhoodLayerMax
+        ];
+
+        const wmsHighlightLayers = [
+            neighborhoodHighlightLayer
         ];
 
         const featureLayers = [
             makeFeatureLayer(mapServerBaseURL, workspace, 'locations', 'Locations')
         ];
 
-        const allLayers = [].concat(baseLayers, wmsLayers, featureLayers);
+        const allLayers = [].concat(baseLayers, wmsLayers, wmsHighlightLayers, featureLayers);
 
         const view = new ol.View({
             center: center,
@@ -38,21 +95,59 @@ export default class Map extends ol.Map {
             target: options.target,
             view: view
         });
+
+        this.$http = options.$http;
+        this.mapServerBaseURL = mapServerBaseURL;
+        this.workspace = workspace;
+        this.neighborhoodSource = neighborhoodLayer.getSource();
+        this.neighborhoodHighlightSource = neighborhoodHighlightSource;
+        this.neighborhoodHighlightLayer = neighborhoodHighlightLayer;
+
+        this.on('singleclick', (event) => {
+            const coordinate = this.getCoordinateFromPixel(event.pixel)
+            this.highlightNeighborhood(coordinate);
+        });
+    }
+
+    highlightNeighborhood (coordinate) {
+        this.highlightNeighborhoodAt(coordinate);
+        // Show neighborhood info... somewhere (but not in a popup)
+    }
+
+    highlightNeighborhoodAt (coordinate) {
+        const wmsSource = this.neighborhoodSource;
+        const featureSource = this.neighborhoodHighlightSource;
+        const url = wmsSource.getGetFeatureInfoUrl(
+            coordinate, getFeatureInfoResolution, projection, {
+            INFO_FORMAT: 'application/json'
+        });
+        return this.$http.get(url).success((data) => {
+            let featureCollection = data;
+            let features = featureCollection.features;
+            featureSource.clear(true);
+            if (features && features.length) {
+                features = geojsonFormat.readFeatures(featureCollection, {
+                    dataProjection: geographicProjection,
+                    featureProjection: projection
+                });
+                featureSource.addFeatures(features);
+            } else {
+
+            }
+        });
     }
 }
 
-function makeWMSLayer (baseURL, workspace, layerName, label) {
-    return new ol.layer.Tile({
-        label: label,
-        opacity: 0.5,
-        source: new ol.source.TileWMS({
-            url: [baseURL, 'wms', workspace].join('/'),
-            serverType: 'geoserver',
-            params: {
-                LAYERS: `${workspace}:${layerName}`
-            }
-        })
+function makeWMSLayer (baseURL, workspace, layerName, options=null) {
+    options = options || {};
+    options.source = options.source || new ol.source.TileWMS({
+        url: [baseURL, 'wms', workspace].join('/'),
+        serverType: 'geoserver',
+        params: {
+            LAYERS: `${workspace}:${layerName}`
+        }
     });
+    return new ol.layer.Tile(options);
 }
 
 function makeFeatureLayer (baseURL, workspace, layerName, label, style=null) {
@@ -84,7 +179,7 @@ function makeFeatureLayer (baseURL, workspace, layerName, label, style=null) {
                     width: 2
                 }),
                 fill: new ol.style.Fill({
-                    color: '#6a7f10'
+                    color: psuGreen
                 })
             })
         })

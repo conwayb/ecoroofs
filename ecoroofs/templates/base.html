@@ -6,85 +6,38 @@
 <html>
     <head>
         <title>{{ PROJECT.title }}</title>
-        <meta charset="utf-8">
 
-        {% block meta %}
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-        {% endblock %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 
         {% block css %}
             {% block cdn_css %}
                 <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic" rel="stylesheet">
                 <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-                {% for cdn_url in APP.cdn_urls.css %}
+                {% for cdn_url in CDN_URLS.css %}
                     <link href="{% cdn_url cdn_url %}" rel="stylesheet">
                 {% endfor %}
             {% endblock %}
 
             {% block app_css %}
-                {% for path in APP.static_paths.css %}
+                {% for path in STATIC_PATHS.css %}
                     <link href="{% static path %}" rel="stylesheet">
                 {% endfor %}
-                <link href="{% static APP.css_path %}" rel="stylesheet">
+                <link href="{% static 'base.css' %}" rel="stylesheet">
             {% endblock %}
         {% endblock %}
     </head>
 
     <body>
-        <md-toolbar ng-cloak>
-            <div class="md-toolbar-tools">
-                <h1>
-                    <a href="/">{{ PROJECT.title }}</a>
-                </h1>
-                <span flex></span>
-                {% if user.is_authenticated %}
-                    <md-menu>
-                        <md-button class="md-icon-button" ng-click="$mdOpenMenu($event)">
-                            <md-icon>account_circle</md-icon>
-                        </md-button>
-                        <md-menu-content width="4">
-                            <md-menu-item>
-                                <span>
-                                    <md-icon>account_circle</md-icon>
-                                    {{ user.get_full_name }}
-                                </span>
-                            </md-menu-item>
-                            <md-divider></md-divider>
-                            {% if user.is_staff or user.is_superuser %}
-                                <md-menu-item>
-                                    <md-button ng-href="{% url 'admin:index' %}">Admin</md-button>
-                                </md-menu-item>
-                            {% endif %}
-                            <md-divider></md-divider>
-                            <md-menu-item>
-                                <md-button href="{% url 'logout' %}" class="md-warn">
-                                    <md-icon>exit_to_app</md-icon>
-                                    Log out
-                                </md-button>
-                            </md-menu-item>
-                        </md-menu-content>
-                    </md-menu>
-                {% else %}
-                    <md-button href="{% url 'login' %}" class="md-icon-button" title="Log in">
-                        <md-icon>account_circle</md-icon>
-                    </md-button>
-                {% endif %}
-            </div>
-
-            <div id="activity-indicator" class="invisible">
-                <md-progress-linear md-mode="indeterminate"></md-progress-linear>
-            </div>
-        </md-toolbar>
-
-        {% block content %}
-            <{{ APP.element_name }}></{{ APP.element_name }}>
-        {% endblock %}
+        <ecoroofs-toolbar></ecoroofs-toolbar>
+        <ecoroofs-sidenav></ecoroofs-sidenav>
+        <div ng-view></div>
 
         {% block js %}
-            <script>APP_CONFIG = {{ APP.app_config|jsonify }};</script>
+            <script>APP_CONFIG = {{ APP_CONFIG|jsonify }};</script>
 
             {% block cdn_js %}
-                {% for cdn_url in APP.cdn_urls.js %}
+                {% for cdn_url in CDN_URLS.js %}
                     <script src="{% cdn_url cdn_url %}"></script>
                 {% endfor %}
             {% endblock %}
@@ -95,16 +48,16 @@
                     <script src="{% static 'node_modules/systemjs/dist/system.src.js' %}"></script>
                     <script src="{% static 'systemjs.config.js' %}"></script>
                     <script>
-                        System.import('{{ APP.key }}').catch(function (error) {
+                        System.import('app').catch(function (error) {
                             console.error(error);
                         });
                     </script>
                 {% else %}
-                    {% for path in APP.static_paths.js %}
+                    {% for path in STATIC_PATHS.js %}
                         <script src="{% static path %}"></script>
                     {% endfor %}
                     <script src="{% static 'bundles/angular.bundle.js' %}"></script>
-                    <script src="{% static APP.bundle_path %}"></script>
+                    <script src="{% static 'bundles/app.bundle.js' %}"></script>
                 {% endif %}
             {% endblock %}
         {% endblock %}

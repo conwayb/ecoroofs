@@ -12,7 +12,7 @@ global.APP_CONFIG = {
 };
 
 // A list of our apps, relative to the static directory.
-const apps = ['map', 'pages'];
+const apps = ['app'];
 
 // Apps are traced to get dependencies trees.
 const traces = [];
@@ -29,6 +29,8 @@ const bundleOptions = {
 const globalDeps = {
     'angular/index.js': 'angular',
     'angular-material/index.js': 'null',
+    'angular-resource/index.js': 'null',
+    'angular-route/index.js': 'null',
     'ol/ol.js': 'ol',
     'DEBUG': false
 };
@@ -37,6 +39,12 @@ console.log('Building SystemJS bundles in', baseURL);
 
 builder.config({
     meta: {
+        'angular-resource/angular-resource.js': {
+            deps: ['angular']
+        },
+        'angular-route/angular-route.js': {
+            deps: ['angular']
+        },
         'ol/ol.js': {
             // Ignore OpenLayers entirely when building. This keeps it
             // from being traced for dependencies and from being

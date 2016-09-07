@@ -1,0 +1,24 @@
+<md-toolbar ng-cloak>
+    <div class="md-toolbar-tools">
+        <md-button title="Main Menu" class="md-icon-button" ng-click="$ctrl.openSidenav()">
+            <md-icon>menu</md-icon>
+        </md-button>
+
+        <h1>
+            <a href="#!/" title="Home">{{ $ctrl.appConfig.title }}</a>
+        </h1>
+
+        <span flex></span>
+
+        <span ng-if="$ctrl.user.isAuthenticated">
+            <span hide-sm hide-xs>{{ $ctrl.user.fullName }}</span>
+            <md-button href="/logout" class="md-icon-button" title="Log out">
+                <md-icon>exit_to_app</md-icon>
+            </md-button>
+        </span>
+    </div>
+
+    <div id="activity-indicator" class="invisible">
+        <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+    </div>
+</md-toolbar>
