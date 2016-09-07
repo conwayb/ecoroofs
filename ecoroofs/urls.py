@@ -27,5 +27,5 @@ urlpatterns = [
 
 
 router = DefaultRouter()
-router.register(r'locations', ModelViewSet.from_model(Location))
+router.register(r'_/locations', ModelViewSet.from_model(Location))
 urlpatterns += router.urls
