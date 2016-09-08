@@ -12,8 +12,8 @@ def set_neighborhoods(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('locations', '0001_initial'),
         ('neighborhoods', '0001_initial'),
-        ('locations', '0003_add_watershed_model'),
     ]
 
     operations = [

@@ -23,5 +23,8 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=255, unique=True)),
                 ('point', django.contrib.gis.db.models.fields.PointField(srid=4326)),
             ],
+            options={
+                'ordering': ['name'],
+            },
         ),
     ]

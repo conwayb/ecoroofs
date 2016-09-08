@@ -13,15 +13,15 @@ def make_initial_pages(apps, schema_editor):
     user, _ = user_model.objects.get_or_create(username='__migrations__', is_active=False)
     model = apps.get_model('pages', 'Page')
     data = [
-        {'title': 'About'},
-        {'title': 'Contact'},
+        {'name': 'About'},
+        {'name': 'Contact'},
     ]
     args = []
     for order, d in enumerate(data):
-        title = d['title']
+        name = d['name']
         page_args = {
-            'description': title,
-            'content': title,
+            'description': name,
+            'content': name,
             'published': True,
         }
         page_args.update(d)
@@ -38,14 +38,14 @@ class Migration(migrations.Migration):
             name='Page',
             fields=[
                 ('id', ecoroofs.models.UUIDPrimaryKeyField(default=uuid.uuid4, serialize=False)),
-                ('slug', ecoroofs.models.UniqueDerivedSlugField(blank=True, editable=False, max_length=255, source_field='title')),
-                ('title', models.CharField(max_length=255)),
+                ('slug', ecoroofs.models.UniqueDerivedSlugField(blank=True, editable=False, max_length=255)),
+                ('name', models.CharField(max_length=255, unique=True)),
                 ('description', models.TextField(blank=True, null=True)),
                 ('content', models.TextField()),
                 ('published', models.BooleanField(default=False)),
             ],
             options={
-                'ordering': ['title'],
+                'ordering': ['name'],
             },
             bases=(models.Model, arcutils.decorators.CachedPropertyInvalidatorMixin),
         ),

@@ -45,9 +45,6 @@ class Neighborhood(BaseModel):
         normalized_name = ''.join(collector)
         return normalized_name
 
-    def __str__(self):
-        return self.name
-
 
 @receiver(pre_save, sender=Neighborhood)
 def normalize_name(sender, instance, **kwargs):

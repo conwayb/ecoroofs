@@ -9,7 +9,7 @@ import ecoroofs.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('locations', '0002_add_ordering_to_location_model'),
+        ('locations', '0002_add_neighborhood_field_to_location_model'),
     ]
 
     operations = [

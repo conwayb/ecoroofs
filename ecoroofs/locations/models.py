@@ -20,9 +20,6 @@ log = logging.getLogger(__name__)
 
 class Location(BaseModel):
 
-    class Meta:
-        ordering = ['name']
-
     name = models.CharField(max_length=255, unique=True)
     point = PointField()
     neighborhood = models.ForeignKey('neighborhoods.Neighborhood', null=True, editable=False)
@@ -54,10 +51,5 @@ def set_neighborhood(sender, instance: Location, **kwargs):
 
 class Watershed(BaseModel):
 
-    class Meta:
-        ordering = ['name']
 
-    name = models.CharField(max_length=255, unique=True)
 
-    def __str__(self):
-        return self.name

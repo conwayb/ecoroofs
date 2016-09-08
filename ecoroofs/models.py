@@ -50,6 +50,11 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ['name']
 
     id = UUIDPrimaryKeyField()
+    name = models.CharField(max_length=255, unique=True)
     slug = UniqueDerivedSlugField(source_field='name')
+
+    def __str__(self):
+        return self.name
