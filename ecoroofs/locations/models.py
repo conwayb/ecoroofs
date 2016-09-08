@@ -11,6 +11,7 @@ from ..neighborhoods.models import Neighborhood
 
 __all__ = [
     'Location',
+    'BuildingUse',
     'Watershed',
 ]
 
@@ -22,8 +23,11 @@ class Location(BaseModel):
 
     name = models.CharField(max_length=255, unique=True)
     point = PointField()
-    neighborhood = models.ForeignKey('neighborhoods.Neighborhood', null=True, editable=False)
+
+    building_use = models.ForeignKey('BuildingUse')
     watershed = models.ForeignKey('Watershed', null=True, blank=True)
+
+    neighborhood = models.ForeignKey('neighborhoods.Neighborhood', null=True, editable=False)
 
     def set_neighborhood_automatically(self):
         """Set neighborhood via spatial contains query.
@@ -49,7 +53,11 @@ def set_neighborhood(sender, instance: Location, **kwargs):
     instance.set_neighborhood_automatically()
 
 
+class BuildingUse(BaseModel):
+
+    pass
+
+
 class Watershed(BaseModel):
 
-
-
+    pass

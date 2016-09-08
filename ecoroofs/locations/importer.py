@@ -97,6 +97,7 @@ class Importer:
             printer.warning('This will likely FAIL due to duplicate key violations.', file=stderr)
             time.sleep(5)
         data = self.read_data()
+        self.column_to_table(data, BuildingUse)
         self.column_to_table(data, Watershed)
         self.insert_locations(data)
 
@@ -137,6 +138,7 @@ class Importer:
 
     def insert_locations(self, data):
         locations = []
+        building_uses = {r.name: r for r in BuildingUse.objects.all()}
         watersheds = {r.name: r for r in Watershed.objects.all()}
 
         # Used to keep track of names already used so we can ensure each
@@ -160,6 +162,7 @@ class Importer:
 
             names.add(name)
 
+            building_use = self.choice(row, 'building_use', building_uses)
             watershed = self.choice(row, 'watershed', watersheds, null=True)
 
             coordinates = {'x': row['longitude'], 'y': row['latitude']}
@@ -173,6 +176,7 @@ class Importer:
             location = Location(
                 name=name,
                 point=point,
+                building_use=building_use,
                 watershed=watershed,
             )
             location.set_neighborhood_automatically()
