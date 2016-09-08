@@ -3,6 +3,8 @@ import re
 import time
 from sys import stderr
 
+from django.utils.text import camel_case_to_spaces
+
 from arcutils.colorize import printer
 
 from ..neighborhoods.models import Neighborhood
@@ -53,7 +55,7 @@ class CSVDictReader(csv.DictReader):
 
     def clean_field_name(self, name):
         name = name.lower()
-        name = re.sub(r'[^a-z0-9_]', '', name)
+        name = re.sub(r'[^a-z0-9_\s]', '', name)
         name = re.sub(r'\s+', '_', name)
         return name
 
@@ -112,15 +114,30 @@ class Importer:
             data = list(reader.iter_rows())
         return data
 
-    def choice_or_null(self, row, field, choices):
+    def normalize_name(self, name):
+        # Convert name to title case if it doesn't already appear to be
+        # title-cased.
+        return name.title() if name[0].islower() else name
+
+    def choice(self, row, field, choices, null=False):
         value = row[field]
-        if value is not None and choices is not None:
+        if value is None:
+            if null:
+                return None
+            raise ValueError('Expected a value for {field} in {row}'.format_map(locals()))
+        value = self.normalize_name(value)
+        try:
             value = choices[value]
+        except KeyError:
+            raise ValueError(
+                '{value} is not one of the available choices for {field}; '
+                'available choices: {choices}'
+                .format_map(locals()))
         return value
 
     def insert_locations(self, data):
         locations = []
-        watersheds = {w.name: w for w in Watershed.objects.all()}
+        watersheds = {r.name: r for r in Watershed.objects.all()}
 
         # Used to keep track of names already used so we can ensure each
         # location has a unique name and slug.
@@ -143,7 +160,7 @@ class Importer:
 
             names.add(name)
 
-            watershed = self.choice_or_null(row, 'watershed', watersheds)
+            watershed = self.choice(row, 'watershed', watersheds, null=True)
 
             coordinates = {'x': row['longitude'], 'y': row['latitude']}
             point = 'POINT({x} {y})'.format_map(coordinates)
@@ -179,11 +196,12 @@ class Importer:
         """
         model_name = model.__name__
         if from_field_name is None:
-            from_field_name = model_name.lower()
+            from_field_name = camel_case_to_spaces(model_name).replace(' ', '_')
 
         self.print('Extracting', from_field_name, 'values...')
         values = {row[from_field_name] for row in data}
         values = {value for value in values if value is not None}
+        values = {self.normalize_name(value) for value in values}
         num_values = len(values)
         self.print('Found', num_values, 'distinct, non-empty', from_field_name, 'values:')
         for value in sorted(values):
