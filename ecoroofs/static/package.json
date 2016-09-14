@@ -23,7 +23,7 @@
         "postcss-cli": "^2.6.0",
         "systemjs": "^0.19.38",
         "systemjs-builder": "^0.15.31",
-        "systemjs-plugin-babel": "^0.0.13",
         "systemjs-plugin-text": "^0.0.8"
+        "systemjs-plugin-babel": "0.0.13",
     }
 }
