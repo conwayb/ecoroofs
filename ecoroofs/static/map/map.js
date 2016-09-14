@@ -64,7 +64,12 @@ export default class Map extends ol.Map {
 
         const baseLayers = [
             new ol.layer.Tile({
-                source: new ol.source.OSM()
+                label: 'Road Map',
+                shortLabel: 'Map',
+                source: new ol.source.BingMaps({
+                    key: options.bing.key,
+                    imagerySet: 'Road'
+                })
             })
         ];
 
