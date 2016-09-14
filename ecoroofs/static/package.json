@@ -19,11 +19,11 @@
         "babel-core": "^6.13.2",
         "clean-css": "^3.4.19",
         "core-js": "^2.4.0",
-        "node-sass": "^3.9.3",
+        "node-sass": "^3.10.0",
         "postcss-cli": "^2.6.0",
         "systemjs": "^0.19.38",
         "systemjs-builder": "^0.15.31",
-        "systemjs-plugin-text": "^0.0.8"
         "systemjs-plugin-babel": "0.0.13",
+        "systemjs-plugin-text": "^0.0.9"
     }
 }
