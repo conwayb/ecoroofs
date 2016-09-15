@@ -85,16 +85,21 @@ class Importer:
         if not self.quiet:
             if self.dry_run:
                 args = ('[DRY RUN]',) + args
-            print(*args, **kwargs)
+            printer.print(*args, **kwargs)
+
+    def warn(self, *args, **kwargs):
+        args = ('WARNING:',) + args
+        kwargs['color'] = 'warning'
+        self.print(*args, **kwargs)
 
     def run(self):
         if Neighborhood.objects.count() == 0:
-            printer.warning('WARNING: Neighborhoods have not been imported.', file=stderr)
+            self.warn('WARNING: Neighborhoods have not been imported.', file=stderr)
         if self.overwrite:
             self.do_overwrite()
         elif Location.objects.count():
-            printer.warning('Importing locations without removing existing records.', file=stderr)
-            printer.warning('This will likely FAIL due to duplicate key violations.', file=stderr)
+            self.warn('Importing locations without removing existing records.', file=stderr)
+            self.warn('This will likely FAIL due to duplicate key violations.', file=stderr)
             time.sleep(5)
         data = self.read_data()
         self.column_to_table(data, BuildingUse)
@@ -149,7 +154,7 @@ class Importer:
             name = row['name'] or row['project']
 
             if name is None:
-                self.print(
+                self.warn(
                     'Name (and project) not set for location: {row}; skipping'
                     .format_map(locals()))
                 continue
@@ -168,7 +173,7 @@ class Importer:
             coordinates = {'x': row['longitude'], 'y': row['latitude']}
             point = 'POINT({x} {y})'.format_map(coordinates)
             if coordinates['x'] is None or coordinates['y'] is None:
-                self.print(
+                self.warn(
                     'Coordinates not set for location "{name}": {point}; skipping'
                     .format_map(locals()))
                 continue
