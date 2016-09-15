@@ -10,6 +10,8 @@ from .serializers import ModelSerializer
 from .views import AppView, ModelViewSet
 
 from .locations.models import Location
+from .locations.views import square_footage
+
 from .pages.models import Page
 
 
@@ -22,6 +24,11 @@ urlpatterns = [
 
     # Auth
     url(r'', include(arcutils.cas.urls)),
+
+    # API
+    url(r'^_/locations/square-footage$', square_footage, name='square-footage'),
+    url(r'^_/locations/square-footage/(?P<neighborhood>.+)$', square_footage,
+        name='square-footage-neighborhood'),
 ]
 
 
