@@ -3,7 +3,7 @@ from django.core.urlresolvers import reverse
 
 from arcutils.decorators import cached_property, CachedPropertyInvalidatorMixin
 
-from ..models import BaseModel, UniqueDerivedSlugField
+from ..models import BaseModel
 
 
 class Page(BaseModel, CachedPropertyInvalidatorMixin):
