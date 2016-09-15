@@ -10,6 +10,10 @@
 
         <span flex></span>
 
+        <span ng-if="$ctrl.totalSquareFootage">
+            {{ $ctrl.totalSquareFootage|number }} sq. ft.
+        </span>
+
         <span ng-if="$ctrl.user.isAuthenticated">
             <span hide-sm hide-xs>{{ $ctrl.user.fullName }}</span>
             <md-button href="/logout" class="md-icon-button" title="Log out">
