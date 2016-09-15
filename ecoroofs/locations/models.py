@@ -24,6 +24,8 @@ class Location(BaseModel):
     name = models.CharField(max_length=255, unique=True)
     point = PointField()
 
+    square_footage = models.PositiveIntegerField(null=True)
+
     building_use = models.ForeignKey('BuildingUse')
     watershed = models.ForeignKey('Watershed', null=True, blank=True)
 
