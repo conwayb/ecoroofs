@@ -188,9 +188,10 @@ class Importer:
             locations.append(location)
 
         num_locations = len(locations)
-        self.print('Creating', num_locations, 'locations...')
+        self.print('Creating', num_locations, 'locations...', end='')
         if self.real_run:
             Location.objects.bulk_create(locations)
+        self.print('Done')
 
     def column_to_table(self, data, model, from_field_name=None, to_field_name='name'):
         """Take column values for field from data and insert into table.
@@ -215,9 +216,11 @@ class Importer:
         self.print('Found', num_values, 'distinct, non-empty', from_field_name, 'values:')
         for value in sorted(values):
             self.print('    "{}"'.format(value))
+        self.print('Done extracting', from_field_name, 'values')
 
         records = [model(**{to_field_name: value}) for value in values if value]
         num_records = len(records)
-        self.print('Inserting', num_records, model_name, 'records...')
+        self.print('Inserting', num_records, model_name, 'records...', end='')
         if self.real_run:
             model.objects.bulk_create(records)
+        self.print('Done')
