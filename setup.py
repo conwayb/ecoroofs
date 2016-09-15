@@ -29,6 +29,7 @@ setup(
     extras_require={
         'dev': [
             'flake8',
+            'unidecode',
         ]
     },
 )
