@@ -16,6 +16,7 @@
     const localPackages = [
         'app',
         'config',
+        'locations',
         'map',
         'pages',
         'toolbar',

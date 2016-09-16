@@ -9,6 +9,7 @@ import MapComponent from 'map/map.component';
 import PageComponent from 'pages/page.component';
 import SidenavComponent from 'sidenav/sidenav.component';
 import ToolbarComponent from 'toolbar/toolbar.component';
+import locationResourceFactory from 'locations/location';
 import pageResourceFactory from 'pages/page';
 
 const ecoroofsApp = angular
@@ -21,6 +22,7 @@ const ecoroofsApp = angular
     .run(commonRun)
     .constant('appConfig', APP_CONFIG)
     .factory('Page', pageResourceFactory)
+    .factory('Location', locationResourceFactory)
     .service('map', Map)
     .component('ecoroofsMap', MapComponent)
     .component('ecoroofsPage', PageComponent)
