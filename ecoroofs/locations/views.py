@@ -3,7 +3,15 @@ from django.db.models import Sum
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from ..views import ModelViewSet
 from .models import Location
+from .serializers import LocationSerializer
+
+
+class LocationViewSet(ModelViewSet):
+
+    queryset = Location.objects.all()
+    serializer_class = LocationSerializer
 
 
 @api_view()

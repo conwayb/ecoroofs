@@ -1,18 +1,13 @@
 from django.conf.urls import include, url
 
-from rest_framework import serializers
-
 from arcutils import admin
 from arcutils.drf.routers import DefaultRouter
 import arcutils.cas.urls
 
-from .serializers import ModelSerializer
-from .views import AppView, ModelViewSet
+from .views import AppView
 
-from .locations.models import Location
-from .locations.views import square_footage
-
-from .pages.models import Page
+from .locations.views import LocationViewSet, square_footage
+from .pages.views import PageViewSet
 
 
 urlpatterns = [
@@ -33,10 +28,6 @@ urlpatterns = [
 
 
 router = DefaultRouter()
-router.register(r'_/locations', ModelViewSet.from_model(Location))
-router.register(r'_/pages', ModelViewSet.from_model(
-    Page,
-    queryset=Page.objects.filter(published=True),
-    serializer_class=ModelSerializer.from_model(Page, path=serializers.CharField()),
-))
+router.register(r'_/locations', LocationViewSet)
+router.register(r'_/pages', PageViewSet)
 urlpatterns += router.urls

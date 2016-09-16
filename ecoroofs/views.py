@@ -9,20 +9,11 @@ from rest_framework import viewsets
 
 from arcutils.settings import get_setting
 
-from .serializers import ModelSerializer
-
 
 class ModelViewSet(viewsets.ModelViewSet):
 
     lookup_field = 'slug'
     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
-
-    @classmethod
-    def from_model(cls, model, **cls_attrs):
-        # Returns a subclass configured with the specified model.
-        cls_attrs.setdefault('queryset', model.objects.all())
-        cls_attrs.setdefault('serializer_class', ModelSerializer.from_model(model))
-        return type(cls.__name__, (cls,), cls_attrs)
 
 
 class AppView(APIView):
