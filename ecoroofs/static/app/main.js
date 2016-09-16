@@ -4,6 +4,7 @@ import 'angular-resource';
 import 'angular-route';
 import commonConfig from 'config/config';
 import commonRun from 'config/run';
+import Map from 'map/map';
 import MapComponent from 'map/map.component';
 import PageComponent from 'pages/page.component';
 import SidenavComponent from 'sidenav/sidenav.component';
@@ -20,6 +21,7 @@ const ecoroofsApp = angular
     .run(commonRun)
     .constant('appConfig', APP_CONFIG)
     .factory('Page', pageResourceFactory)
+    .service('map', Map)
     .component('ecoroofsMap', MapComponent)
     .component('ecoroofsPage', PageComponent)
     .component('ecoroofsSidenav', SidenavComponent)
