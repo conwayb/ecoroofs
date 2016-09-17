@@ -5,6 +5,7 @@ import 'angular-route';
 import commonConfig from 'config/config';
 import commonRun from 'config/run';
 import Map from 'map/map';
+import MapInfoComponent from 'map/info.component';
 import MapComponent from 'map/map.component';
 import PageComponent from 'pages/page.component';
 import SidenavComponent from 'sidenav/sidenav.component';
@@ -25,6 +26,7 @@ const ecoroofsApp = angular
     .factory('Location', locationResourceFactory)
     .service('map', Map)
     .component('ecoroofsMap', MapComponent)
+    .component('ecoroofsMapInfo', MapInfoComponent)
     .component('ecoroofsPage', PageComponent)
     .component('ecoroofsSidenav', SidenavComponent)
     .component('ecoroofsToolbar', ToolbarComponent)

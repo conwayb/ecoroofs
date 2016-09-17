@@ -15,7 +15,7 @@ export default function commonConfig ($compileProvider, $httpProvider, $location
 
     $routeProvider
         .when('/', {
-            template: '<ecoroofs-map></ecoroofs-map>'
+            template: '<ecoroofs-map><ecoroofs-map-info></ecoroofs-map-info></ecoroofs-map>'
         })
 
         .when('/pages/:slug', {
