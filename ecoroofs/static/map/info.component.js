@@ -16,6 +16,11 @@ const ContentComponent = {
             const y = centerPixel[1];
             const newX = x + (width * direction);
             const newCenter = map.getCoordinateFromPixel([newX, y]);
+            const pan = ol.animation.pan({
+                source: map.getView().getCenter(),
+                duration: 200
+            });
+            map.beforeRender(pan);
             mapView.setCenter(newCenter);
         };
 
@@ -23,7 +28,7 @@ const ContentComponent = {
             const sidenav = $mdSidenav(sidenavId);
             if (!sidenav.isOpen()) {
                 sidenav.open();
-                this.pan(1)
+                this.pan(1);
             }
         };
 
@@ -31,7 +36,7 @@ const ContentComponent = {
             const sidenav = $mdSidenav(sidenavId);
             if (sidenav.isOpen()) {
                 sidenav.close();
-                this.pan(-1)
+                this.pan(-1);
             }
         };
 
