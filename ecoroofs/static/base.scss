@@ -29,6 +29,11 @@ a, a md-icon, a md-icon.md-default-theme {
     margin: 0;
 }
 
+.img-responsive {
+    max-width: 100%;
+    height: auto;
+}
+
 // Global activity indicator
 #activity-indicator {
     position: absolute;
