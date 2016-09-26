@@ -13,8 +13,7 @@ from .models import *  # noqa
 
 # Map of CSV field names => model field names.
 FIELD_NAME_MAP = {
-    'Name in BES Reports': 'name',
-    'Project': '',
+    'Project': 'name',
     'Address': '',
     'Address (Obscured)': '',
     'Address_Clean': '',
@@ -151,12 +150,10 @@ class Importer:
         names = set()
 
         for row in data:
-            name = row['name'] or row['project']
+            name = row['name']
 
             if name is None:
-                self.warn(
-                    'Name (and project) not set for location: {row}; skipping'
-                    .format_map(locals()))
+                self.warn('Project name not set for location: {row}; skipping'.format_map(locals()))
                 continue
 
             i = 1
