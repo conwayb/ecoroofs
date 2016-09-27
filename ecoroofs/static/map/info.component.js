@@ -38,6 +38,7 @@ const ContentComponent = {
                 sidenav.close();
                 this.pan(-1);
             }
+            map.clearHighlightOverlay();
         };
 
         map.on('singleclick', (event) => {
@@ -48,6 +49,8 @@ const ContentComponent = {
                     slug: slug
                 }, () => {
                     this.open();
+                    map.clearHighlightOverlay();
+                    map.highlightFeature(feature);
                 }, () => {
                     this.close();
                 });

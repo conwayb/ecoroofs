@@ -89,7 +89,26 @@ export default class Map extends ol.Map {
             makeFeatureLayer(mapServerBaseURL, workspace, 'locations', 'Locations')
         ];
 
-        const allLayers = [].concat(baseLayers, wmsLayers, wmsHighlightLayers, featureLayers);
+        const highlightOverlay = new ol.layer.Vector({
+            source: new ol.source.Vector({
+                features: new ol.Collection()
+            }),
+            style: new ol.style.Style({
+                image: new ol.style.Circle({
+                    radius: pointRadius + 2,
+                    stroke: new ol.style.Stroke({
+                        color: 'white',
+                        width: 2
+                    }),
+                    fill: new ol.style.Fill({
+                        color: 'red'
+                    })
+                })
+            })
+        });
+
+        const allLayers = [].concat(
+            baseLayers, wmsLayers, wmsHighlightLayers, featureLayers, [highlightOverlay]);
 
         const view = new ol.View({
             center: center,
@@ -110,11 +129,20 @@ export default class Map extends ol.Map {
         this.neighborhoodSource = neighborhoodLayer.getSource();
         this.neighborhoodHighlightSource = neighborhoodHighlightSource;
         this.neighborhoodHighlightLayer = neighborhoodHighlightLayer;
+        this.highlightOverlay = highlightOverlay;
 
         this.on('singleclick', (event) => {
             const coordinate = this.getCoordinateFromPixel(event.pixel)
             this.highlightNeighborhood(coordinate);
         });
+    }
+
+    highlightFeature (feature) {
+        this.highlightOverlay.getSource().addFeature(feature);
+    }
+
+    clearHighlightOverlay () {
+        this.highlightOverlay.getSource().clear(true);
     }
 
     highlightNeighborhood (coordinate) {
