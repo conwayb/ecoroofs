@@ -182,16 +182,15 @@ class Importer:
             square_footage = row['square_footage']
             if square_footage is None:
                 self.warn(
-                    'Square footage not set for location "{name}"; setting to 0'
+                    'Square footage not set for location "{name}"'
                     .format_map(locals()))
-                square_footage = 0
             else:
                 square_footage, *rest = square_footage.split(None, 1)
                 if rest:
                     self.warn(
                         'Extraneous data in square footage for location "{name}": {rest[0]}'
                         .format_map(locals()))
-            square_footage = int(square_footage)
+                square_footage = int(square_footage)
 
             building_use = self.choice(row, 'building_use', building_uses)
             watershed = self.choice(row, 'watershed', watersheds, null=True)
