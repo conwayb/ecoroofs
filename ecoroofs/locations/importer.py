@@ -106,12 +106,15 @@ class Importer:
         self.insert_locations(data)
 
     def do_overwrite(self):
-        self.print('Removing existing locations...')
-        if self.real_run:
-            Location.objects.all().delete()
-        self.print('Removing existing watersheds...')
-        if self.real_run:
-            Watershed.objects.all().delete()
+        models_to_delete = (
+            Location,
+            BuildingUse,
+            Watershed,
+        )
+        for model in models_to_delete:
+            self.print('Removing existing {model._meta.verbose_name_plural}...'.format(**locals()))
+            if self.real_run:
+                model.objects.all().delete()
 
     def read_data(self):
         with open(self.file_name) as fp:
