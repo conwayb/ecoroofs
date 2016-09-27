@@ -11,6 +11,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='location',
             name='square_footage',
-            field=models.PositiveIntegerField(),
+            field=models.PositiveIntegerField(null=True),
         ),
     ]
