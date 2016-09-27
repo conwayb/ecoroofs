@@ -158,9 +158,9 @@ class Importer:
                 continue
 
             i = 1
-            base_name = name
+            base_name = self.normalize_name(name)
             while name in names:
-                name = '{base_name}-{i}'.format_map(locals())
+                name = '{base_name} {i}'.format_map(locals())
                 i += 1
 
             names.add(name)
