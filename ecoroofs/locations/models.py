@@ -23,6 +23,7 @@ class Location(BaseModel):
 
     point = PointField()
 
+    irrigated = models.NullBooleanField()
     square_footage = models.PositiveIntegerField(null=True)
 
     building_use = models.ForeignKey('BuildingUse')

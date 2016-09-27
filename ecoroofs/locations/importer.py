@@ -31,7 +31,7 @@ FIELD_NAME_MAP = {
     'Depth': '',
     'Cost': '',
     'Composition': '',
-    'Irrigation': '',
+    'Irrigation': 'irrigated',
     'Drainage': '',
     'Plants': '',
     'Maintenance': '',
@@ -120,6 +120,18 @@ class Importer:
             data = list(reader.iter_rows())
         return data
 
+    def as_bool(self, value, true_values=('yes',), false_values=('no',), null=False):
+        if value is None:
+            return None
+        value = value.strip().lower()
+        if not value:
+            return None
+        if value in true_values:
+            return True
+        if value in false_values:
+            return False
+        raise ValueError('{value} not in specified true or false values'.format_map(locals()))
+
     def normalize_name(self, name):
         # Convert name to title case if it doesn't already appear to be
         # title-cased.
@@ -165,6 +177,8 @@ class Importer:
 
             names.add(name)
 
+            irrigated = self.as_bool(row['irrigated'], null=True)
+
             square_footage = row['square_footage']
             if square_footage is None:
                 self.warn(
@@ -193,6 +207,7 @@ class Importer:
             location = Location(
                 name=name,
                 point=point,
+                irrigated=irrigated,
                 square_footage=square_footage,
                 building_use=building_use,
                 watershed=watershed,

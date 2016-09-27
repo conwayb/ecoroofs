@@ -17,5 +17,11 @@
         <div>{{ $ctrl.location.building_use.name }} usage</div>
         <div>{{ $ctrl.location.square_footage|number }} sq. ft.</div>
         <div ng-if="$ctrl.location.watershed">{{ $ctrl.location.watershed.name }} watershed</div>
+        <div ng-if="$ctrl.location.irrigated === null">
+            May be irrigated (unknown)
+        </div>
+        <div ng-if="$ctrl.location.irrigated !== null">
+            {{ $ctrl.location.irrigated ? 'Is' : 'Is not' }} irrigated
+        </div>
     </md-content>
 </md-sidenav>
