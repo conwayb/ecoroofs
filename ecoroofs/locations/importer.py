@@ -3,8 +3,6 @@ import re
 import time
 from sys import stderr
 
-from django.utils.text import camel_case_to_spaces
-
 from arcutils.colorize import printer
 
 from ..neighborhoods.models import Neighborhood
@@ -219,19 +217,19 @@ class Importer:
             to_field_name: Model field name to set
 
         """
-        model_name = model.__name__
+        model_name = model._meta.verbose_name
         if from_field_name is None:
-            from_field_name = camel_case_to_spaces(model_name).replace(' ', '_')
+            from_field_name = model_name.replace(' ', '_')
 
-        self.print('Extracting', from_field_name, 'values...')
+        self.print('Extracting', model_name, 'values...')
         values = {row[from_field_name] for row in data}
         values = {value for value in values if value is not None}
         values = {self.normalize_name(value) for value in values}
         num_values = len(values)
-        self.print('Found', num_values, 'distinct, non-empty', from_field_name, 'values:')
+        self.print('Found', num_values, 'distinct, non-empty', model_name, 'values:')
         for value in sorted(values):
             self.print('    "{}"'.format(value))
-        self.print('Done extracting', from_field_name, 'values')
+        self.print('Done extracting', model_name, 'values')
 
         records = [model(**{to_field_name: value}) for value in values if value]
         num_records = len(records)
