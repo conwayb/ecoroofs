@@ -21,7 +21,6 @@ log = logging.getLogger(__name__)
 
 class Location(BaseModel):
 
-    name = models.CharField(max_length=255, unique=True)
     point = PointField()
 
     square_footage = models.PositiveIntegerField(null=True)
