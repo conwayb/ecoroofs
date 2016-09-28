@@ -19,7 +19,7 @@ FIELD_NAME_MAP = {
     'Building Use': '',
     'Solar over Ecoroof': '',
     'Type': '',
-    'Year': 'year_built',
+    'Year Built': 'year_built',
     'Size (sf)': 'square_footage',
     'Number': '',
     'Latitude(Non Obscured)': 'latitude',
@@ -181,9 +181,7 @@ class Importer:
 
             square_footage = row['square_footage']
             if square_footage is None:
-                self.warn(
-                    'Square footage not set for location "{name}"'
-                    .format_map(locals()))
+                self.warn('Square footage not set for location "{name}"'.format_map(locals()))
             else:
                 square_footage, *rest = square_footage.split(None, 1)
                 if rest:
@@ -191,6 +189,14 @@ class Importer:
                         'Extraneous data in square footage for location "{name}": {rest[0]}'
                         .format_map(locals()))
                 square_footage = int(square_footage)
+
+            year_built = row['year_built']
+            if year_built is None:
+                self.warn(
+                    'Year Built not set for location "{name}"'
+                    .format_map(locals()))
+            else:
+                year_built = int(year_built)
 
             building_use = self.choice(row, 'building_use', building_uses)
             watershed = self.choice(row, 'watershed', watersheds, null=True)
@@ -208,6 +214,7 @@ class Importer:
                 point=point,
                 irrigated=irrigated,
                 square_footage=square_footage,
+                year_built=year_built,
                 building_use=building_use,
                 watershed=watershed,
             )
