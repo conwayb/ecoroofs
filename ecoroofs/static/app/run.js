@@ -1,6 +1,6 @@
 import angular from 'angular';
 
-export default function commonRun ($rootScope, $http, $timeout) {
+export default function run ($rootScope, $http, $timeout) {
     const activityEl = angular.element(document.getElementById('activity-indicator'));
     $rootScope.$watch(function () {
         return $http.pendingRequests.length;

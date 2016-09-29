@@ -2,8 +2,8 @@ import angular from 'angular';
 import 'angular-material';
 import 'angular-resource';
 import 'angular-route';
-import commonConfig from 'config/config';
-import commonRun from 'config/run';
+import config from './config';
+import run from './run';
 import Map from 'map/map';
 import MapInfoComponent from 'map/info.component';
 import MapComponent from 'map/map.component';
@@ -19,8 +19,8 @@ const ecoroofsApp = angular
         'ngResource',
         'ngRoute'
     ])
-    .config(commonConfig)
-    .run(commonRun)
+    .config(config)
+    .run(run)
     .constant('appConfig', APP_CONFIG)
     .factory('Page', pageResourceFactory)
     .factory('Location', locationResourceFactory)

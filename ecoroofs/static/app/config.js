@@ -1,5 +1,5 @@
-export default function commonConfig ($compileProvider, $httpProvider, $locationProvider,
-                                      $mdThemingProvider, $resourceProvider, $routeProvider) {
+export default function config ($compileProvider, $httpProvider, $locationProvider,
+                                $mdThemingProvider, $resourceProvider, $routeProvider) {
     if (!APP_CONFIG.debug) {
         // Disable debug data in production.
         // See https://docs.angularjs.org/guide/production.
