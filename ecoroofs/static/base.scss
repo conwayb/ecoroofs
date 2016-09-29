@@ -63,3 +63,30 @@ ecoroofs-map {
         top: 48px;
     }
 }
+
+// XXX: Why does OL use ems for positioning controls?
+.ol-control button {
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+    line-height: 1;
+}
+.ol-touch .ol-control button {
+    font-size: 20px;
+}
+.ol-control.ol-zoom {
+    bottom: 8px;
+    right: 8px;
+    top: auto;
+    left: auto;
+}
+.ol-control.ol-attribution {
+    bottom: 8px;
+    right: 8px + 38px + 8px;
+}
+.ol-control.ol-rotate {
+    bottom: 8px + 71px + 8px;
+    right: 8px;
+    top: auto;
+    left: auto;
+}
