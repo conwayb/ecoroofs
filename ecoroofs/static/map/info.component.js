@@ -1,3 +1,4 @@
+import ol from 'ol';
 import template from './info.html!text';
 
 const ContentComponent = {
