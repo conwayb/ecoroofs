@@ -25,7 +25,6 @@ const psuGreenRGB = '106,127,16';
 export default class Map extends ol.Map {
     constructor ($http, appConfig) {
         const options = appConfig.map;
-        const target = document.querySelector('ecoroofs-map');
 
         const center = ol.proj.fromLonLat(options.view.center);
         const serverOptions = options.server;
@@ -119,7 +118,6 @@ export default class Map extends ol.Map {
 
         super({
             layers: allLayers,
-            target: target,
             view: view
         });
 
