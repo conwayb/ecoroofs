@@ -1,6 +1,8 @@
 from django.db.models import Sum
+from django.contrib.postgres.search import SearchQuery, SearchVector
 
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, list_route
+from rest_framework.exceptions import ParseError
 from rest_framework.response import Response
 
 from ..views import ModelViewSet
@@ -12,6 +14,19 @@ class LocationViewSet(ModelViewSet):
 
     queryset = Location.objects.all()
     serializer_class = LocationSerializer
+
+    @list_route()
+    def search(self, request):
+        term = request.query_params.get('q', '').strip()
+        if not term:
+            raise ParseError('Missing search term (q query parameter)')
+        search_query = SearchQuery(term)
+        q = Location.objects.annotate(search=SearchVector('name'))
+        q = q.filter(search=search_query)
+        serializer = self.get_serializer(q, many=True)
+        return Response({
+            'matches': serializer.data,
+        })
 
 
 @api_view()
