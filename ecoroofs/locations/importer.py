@@ -133,9 +133,14 @@ class Importer:
         raise ValueError('{value} not in specified true or false values'.format_map(locals()))
 
     def normalize_name(self, name):
-        # Convert name to title case if it doesn't already appear to be
-        # title-cased.
-        return name.title() if name[0].islower() else name
+        # Applies the following transformations to normalize a name:
+        #
+        #     - Collapse contiguous whitespace into a single space
+        #     - Convert name to title case if it doesn't already appear
+        #       to be title-cased.
+        name = re.sub(r'\s+', ' ', name)
+        name = name.title() if name[0].islower() else name
+        return name
 
     def choice(self, row, field, choices, null=False):
         value = row[field]
