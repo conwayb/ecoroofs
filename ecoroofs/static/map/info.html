@@ -2,29 +2,38 @@
             md-component-id="sidenav-map-info"
             md-disable-backdrop
             md-whiteframe="4">
-    <md-content layout="column" layout-padding>
+    <md-content layout="column">
         <div layout="row" layout-align="start center">
-            <h2 class="md-title no-margin" flex>Location</h2>
+            <h2 class="md-title no-margin standard-padding" flex>Location</h2>
             <md-button title="Hide sidebar"
                        class="md-icon-button no-margin"
                        ng-click="$ctrl.close()">
                 <md-icon>chevron_right</md-icon>
             </md-button>
         </div>
-        <div class="md-subhead">{{ $ctrl.location.name }}</div>
+
         <md-divider></md-divider>
-        <div>{{ $ctrl.location.neighborhood.name }} neighborhood</div>
-        <div>{{ $ctrl.location.building_use.name }} usage</div>
-        <div>{{ $ctrl.location.square_footage|number }} sq. ft.</div>
-        <div ng-if="$ctrl.location.year_built !== null">
-            Built in {{ $ctrl.location.year_built }}
+
+        <div class="md-subhead">
+            <span flex class="standard-padding">{{ $ctrl.location.name }}</span>
         </div>
-        <div ng-if="$ctrl.location.watershed">{{ $ctrl.location.watershed.name }} watershed</div>
-        <div ng-if="$ctrl.location.irrigated === null">
-            May be irrigated (unknown)
-        </div>
-        <div ng-if="$ctrl.location.irrigated !== null">
-            {{ $ctrl.location.irrigated ? 'Is' : 'Is not' }} irrigated
+
+        <md-divider></md-divider>
+
+        <div layout="column" layout-padding>
+            <div>{{ $ctrl.location.neighborhood.name }} neighborhood</div>
+            <div>{{ $ctrl.location.building_use.name }} usage</div>
+            <div>{{ $ctrl.location.square_footage|number }} sq. ft.</div>
+            <div ng-if="$ctrl.location.year_built !== null">
+                Built in {{ $ctrl.location.year_built }}
+            </div>
+            <div ng-if="$ctrl.location.watershed">{{ $ctrl.location.watershed.name }} watershed</div>
+            <div ng-if="$ctrl.location.irrigated === null">
+                May be irrigated (unknown)
+            </div>
+            <div ng-if="$ctrl.location.irrigated !== null">
+                {{ $ctrl.location.irrigated ? 'Is' : 'Is not' }} irrigated
+            </div>
         </div>
     </md-content>
 </md-sidenav>
