@@ -174,8 +174,10 @@ class Importer:
                 self.warn('Project name not set for location: {row}; skipping'.format_map(locals()))
                 continue
 
+            name = self.normalize_name(name)
+
             i = 1
-            base_name = self.normalize_name(name)
+            base_name = name
             while name in names:
                 name = '{base_name} {i}'.format_map(locals())
                 i += 1
