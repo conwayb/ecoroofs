@@ -12,7 +12,6 @@ from arcutils.settings import get_setting
 
 class ModelViewSet(viewsets.ModelViewSet):
 
-    lookup_field = 'slug'
     permission_classes = [DjangoModelPermissionsOrAnonReadOnly]
 
 

@@ -69,9 +69,9 @@ const ContentComponent = {
             const pixel = event.pixel;
             const feature = map.forEachFeatureAtPixel(pixel, (feature) => feature);
             if (feature) {
-                const slug = feature.get('slug');
+                const id = feature.get('id');
                 this.location = Location.get({
-                    slug: slug
+                    id: id
                 }, () => {
                     this.open(pixel);
                     map.clearHighlightOverlay();
