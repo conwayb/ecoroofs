@@ -6,6 +6,17 @@ from ..neighborhoods.models import Neighborhood
 from .models import *  # noqa
 
 
+class PointSerializer(serializers.BaseSerializer):
+
+    def to_representation(self, instance):
+        return {
+            'x': instance.x,
+            'y': instance.y,
+            'z': instance.z,
+            'srid': instance.srid,
+        }
+
+
 class BuildingUseSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -30,6 +41,7 @@ class LocationSerializer(ModelSerializer):
     class Meta:
         model = Location
 
+    point = PointSerializer()
     building_use = BuildingUseSerializer()
     neighborhood = NeighborhoodSerializer()
     watershed = WatershedSerializer()
