@@ -135,6 +135,13 @@ export default class Map extends ol.Map {
         });
     }
 
+    setCenter (center, native /* =false */) {
+        if (!native) {
+            center = ol.proj.fromLonLat(center);
+        }
+        this.getView().setCenter(center);
+    }
+
     highlightFeature (feature) {
         this.highlightOverlay.getSource().addFeature(feature);
     }

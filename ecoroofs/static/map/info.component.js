@@ -65,6 +65,11 @@ const ContentComponent = {
             map.clearHighlightOverlay();
         };
 
+        this.showLocation = (location) => {
+            const point = location.point_obscured;
+            map.setCenter([point.x, point.y]);
+        }
+
         map.on('singleclick', (event) => {
             const pixel = event.pixel;
             const feature = map.forEachFeatureAtPixel(pixel, (feature) => feature);

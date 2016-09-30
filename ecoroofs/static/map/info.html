@@ -14,8 +14,13 @@
 
         <md-divider></md-divider>
 
-        <div class="md-subhead">
+        <div class="md-subhead" layout="row" layout-align="start center">
             <span flex class="standard-padding">{{ $ctrl.location.name }}</span>
+            <md-button title="Center map on this location"
+                       class="md-icon-button"
+                       ng-click="$ctrl.showLocation($ctrl.location)">
+                <md-icon>place</md-icon>
+            </md-button>
         </div>
 
         <md-divider></md-divider>
