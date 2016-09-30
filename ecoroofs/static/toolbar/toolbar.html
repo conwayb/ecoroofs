@@ -14,12 +14,10 @@
             {{ $ctrl.totalSquareFootage|number }} sq. ft.
         </span>
 
-        <span ng-if="$ctrl.user.isAuthenticated">
-            <span hide-sm hide-xs>{{ $ctrl.user.fullName }}</span>
-            <md-button href="/logout" class="md-icon-button" title="Log out">
-                <md-icon>exit_to_app</md-icon>
-            </md-button>
-        </span>
+        <md-button href="/logout" title="Log out" class="md-icon-button"
+                   ng-if="$ctrl.user.isAuthenticated">
+            <md-icon>exit_to_app</md-icon>
+        </md-button>
     </div>
 
     <div id="activity-indicator" class="invisible">
