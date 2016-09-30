@@ -22,6 +22,7 @@ log = logging.getLogger(__name__)
 class Location(BaseModel):
 
     point = PointField()
+    point_obscured = PointField()
 
     irrigated = models.NullBooleanField()
     square_footage = models.PositiveIntegerField(null=True)

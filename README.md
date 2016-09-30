@@ -58,15 +58,27 @@ in GeoServer, but that's not *too* hard:
   - database: `ecoroofs`
   - user: `ecoroofs`
   - password: [leave blank]
-- Create a `locations` layer from `ecoroofs:ecoroofs`
-  - Find the `locations_location` table in the list and click the
-    `Publish` link
-  - Set the layer's name to `locations`
-  - Set the layer's title to `Locations`
-  - Scroll and click the two links for automatically computing bounds
 - Create a `neighborhoods` layer from `ecoroofs:ecoroofs`
   - Find the `neighborhoods_neighborhood` table in the list and click the
     `Publish` link
   - Set the layer's name to `neighborhoods`
   - Set the layer's title to `Neighborhoods`
-  - Scroll and click the two links for automatically computing bounds
+  - Click the `Compute from data` and `Compute from native bounds` links
+- Create a `locations` layer from `ecoroofs:ecoroofs`. Because the
+  location table has multiple geometry fields, this requires creating a
+  "view" in GeoServer.
+  - Go to the `Layers` page
+  - Click the `Add new resource` link
+  - From the `Add layer from` dropdown select `ecoroofs:ecoroofs`
+  - Click the `Configure new SQL view...` link
+  - Set the `View name` to `locations`
+  - Set `SQL statement` to
+    `select id, point_obscured from locations_location`
+  - In the `Attributes` section, click the `Refresh` link
+  - Check the box in the `Identifier` column for the `id` attribute
+  - Set `Type` to `Point` and `SRID` to `4326` for the `point_obscured`
+    attribute
+  - `Save` (this will take you to the `Edit Layer` page)
+  - Set the layer `Title` to `Locations`
+  - Click the `Compute from data` and `Compute from native bounds` links
+  - `Save` (this will take you back to the `Layers` page)

@@ -208,6 +208,7 @@ class Importer:
             building_use = self.choice(row, 'building_use', building_uses)
             watershed = self.choice(row, 'watershed', watersheds, null=True)
 
+            # Actual coordinates
             coordinates = {'x': row['longitude'], 'y': row['latitude']}
             point = 'POINT({x} {y})'.format_map(coordinates)
             if coordinates['x'] is None or coordinates['y'] is None:
@@ -216,9 +217,19 @@ class Importer:
                     .format_map(locals()))
                 continue
 
+            # Obscured coordinates
+            coordinates = {'x': row['longitude_obscured'], 'y': row['latitude_obscured']}
+            point_obscured = 'POINT({x} {y})'.format_map(coordinates)
+            if coordinates['x'] is None or coordinates['y'] is None:
+                self.warn(
+                    'Obscured coordinates not set for location "{name}": {point_obscured}; skipping'
+                    .format_map(locals()))
+                continue
+
             location = Location(
                 name=name,
                 point=point,
+                point_obscured=point_obscured,
                 irrigated=irrigated,
                 square_footage=square_footage,
                 year_built=year_built,

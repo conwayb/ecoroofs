@@ -40,8 +40,21 @@ class LocationSerializer(ModelSerializer):
 
     class Meta:
         model = Location
+        exclude = ('point',)
 
-    point = PointSerializer()
+    point_obscured = PointSerializer()
     building_use = BuildingUseSerializer()
     neighborhood = NeighborhoodSerializer()
     watershed = WatershedSerializer()
+
+
+class PrivilegedLocationSerializer(LocationSerializer):
+
+    """For users that have privileged access (staff, superusers).
+
+    This includes non-obscured location data such as the actual
+    coordinates and addresses of residential ecoroofs.
+
+    """
+
+    point = PointSerializer()

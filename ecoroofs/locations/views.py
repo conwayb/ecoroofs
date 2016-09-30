@@ -7,13 +7,18 @@ from rest_framework.response import Response
 
 from ..views import ModelViewSet
 from .models import Location
-from .serializers import LocationSerializer
+from .serializers import LocationSerializer, PrivilegedLocationSerializer
 
 
 class LocationViewSet(ModelViewSet):
 
     queryset = Location.objects.all()
-    serializer_class = LocationSerializer
+
+    def get_serializer_class(self):
+        user = self.request.user
+        if user and (user.is_staff or user.is_superuser):
+            return PrivilegedLocationSerializer
+        return LocationSerializer
 
     @list_route()
     def search(self, request):
