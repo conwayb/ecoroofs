@@ -29,9 +29,7 @@ class LocationViewSet(ModelViewSet):
         q = Location.objects.annotate(search=SearchVector('name'))
         q = q.filter(search=search_query)
         serializer = self.get_serializer(q, many=True)
-        return Response({
-            'matches': serializer.data,
-        })
+        return Response(serializer.data)
 
 
 @api_view()
