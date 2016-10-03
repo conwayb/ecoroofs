@@ -6,6 +6,7 @@ import config from './config';
 import run from './run';
 import Map from 'map/map';
 import MapInfoComponent from 'map/info.component';
+import MapSearchComponent from 'map/search.component';
 import MapComponent from 'map/map.component';
 import PageComponent from 'pages/page.component';
 import SidenavComponent from 'sidenav/sidenav.component';
@@ -27,6 +28,7 @@ const ecoroofsApp = angular
     .service('map', Map)
     .component('ecoroofsMap', MapComponent)
     .component('ecoroofsMapInfo', MapInfoComponent)
+    .component('ecoroofsMapSearch', MapSearchComponent)
     .component('ecoroofsPage', PageComponent)
     .component('ecoroofsSidenav', SidenavComponent)
     .component('ecoroofsToolbar', ToolbarComponent)

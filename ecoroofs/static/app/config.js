@@ -15,7 +15,11 @@ export default function config ($compileProvider, $httpProvider, $locationProvid
 
     $routeProvider
         .when('/', {
-            template: '<ecoroofs-map><ecoroofs-map-info></ecoroofs-map-info></ecoroofs-map>'
+            template: `
+                <ecoroofs-map>
+                    <ecoroofs-map-search></ecoroofs-map-search>
+                    <ecoroofs-map-info></ecoroofs-map-info>
+                </ecoroofs-map>`
         })
 
         .when('/pages/:slug', {

@@ -106,8 +106,27 @@ export default class Map extends ol.Map {
             })
         });
 
+        const searchResultsOverlay = new ol.layer.Vector({
+            source: new ol.source.Vector({
+                features: new ol.Collection()
+            }),
+            style: new ol.style.Style({
+                image: new ol.style.Circle({
+                    radius: 4,
+                    fill: new ol.style.Fill({
+                        color: '#dc9b32'
+                    })
+                })
+            })
+        });
+
+        const overlays = [
+            highlightOverlay,
+            searchResultsOverlay
+        ];
+
         const allLayers = [].concat(
-            baseLayers, wmsLayers, wmsHighlightLayers, featureLayers, [highlightOverlay]);
+            baseLayers, wmsLayers, wmsHighlightLayers, featureLayers, overlays);
 
         const view = new ol.View({
             center: center,
@@ -128,6 +147,7 @@ export default class Map extends ol.Map {
         this.neighborhoodHighlightSource = neighborhoodHighlightSource;
         this.neighborhoodHighlightLayer = neighborhoodHighlightLayer;
         this.highlightOverlay = highlightOverlay;
+        this.searchResultsOverlay = searchResultsOverlay;
 
         this.on('singleclick', (event) => {
             const coordinate = this.getCoordinateFromPixel(event.pixel)

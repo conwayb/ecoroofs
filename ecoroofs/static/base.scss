@@ -57,10 +57,59 @@ ecoroofs-map {
     left: 0;
 }
 
+ecoroofs-map-search {
+    position: absolute;
+    top: 8px;
+    right: 67%;
+    left: 8px;
+    min-width: 400px;
+
+    z-index: 20;
+
+    box-sizing: border-box;
+
+    background-color: white;
+    border-radius: 2px;
+    box-shadow: 2px 2px 4px;
+
+    form {
+        margin: 0;
+        margin-left: 16px;
+        padding: 0;
+        input {
+            border: none;
+            outline: none;
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            width: 100%;
+        }
+        .md-button.md-icon-button {
+            margin: 0;
+        }
+    }
+
+    .search-meta-info {
+        font-size: 12px;
+        padding: 4px 16px;
+    }
+}
+
 /* Mobile Overrides */
-@media (max-width: $layout-breakpoint-sm - 1px) {
+@media (max-width: $layout-breakpoint-sm - 1px) and (orientation: portrait) {
+    [ng-view] {
+        top: 56px;
+    }
+}
+@media (max-width: $layout-breakpoint-sm - 1px) and (orientation: landscape) {
     [ng-view] {
         top: 48px;
+    }
+}
+@media (max-width: 399px) {
+    ecoroofs-map-search {
+        right: 8px;
+        min-width: 200px;
     }
 }
 
