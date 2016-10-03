@@ -1,8 +1,3 @@
 -f https://pypi.research.pdx.edu/dist/
 git+https://github.com/PSU-OIT-ARC/arctasks#egg=psu.oit.arc.tasks
-
-# NOTE: The following line is temporary while Django 1.10 support is
-#       added to ARCUtils.
--e ../django-arcutils
-
 -e .[dev]
