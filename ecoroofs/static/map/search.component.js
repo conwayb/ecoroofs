@@ -44,6 +44,7 @@ const SearchComponent = {
                         coordinates = ol.proj.fromLonLat(coordinates);
                         point = new ol.geom.Point(coordinates);
                         feature = new ol.Feature({
+                            id: location.id,
                             name: location.name,
                             geometry: point
                         });
