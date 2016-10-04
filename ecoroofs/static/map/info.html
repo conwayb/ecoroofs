@@ -13,7 +13,6 @@
         </div>
 
         <md-divider></md-divider>
-
         <div class="md-subhead" layout="row" layout-align="start center">
             <span flex class="standard-padding">{{ $ctrl.location.name }}</span>
             <md-button title="Center map on this location"
@@ -25,7 +24,7 @@
 
         <md-divider></md-divider>
 
-        <div layout="column" layout-padding>
+        <div ng-show="$ctrl.location.$resolved" layout="column" layout-padding>
             <div>{{ $ctrl.location.neighborhood.name }} neighborhood</div>
             <div>{{ $ctrl.location.building_use.name }} usage</div>
             <div>{{ $ctrl.location.square_footage|number }} sq. ft.</div>
