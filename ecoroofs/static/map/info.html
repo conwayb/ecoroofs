@@ -25,7 +25,7 @@
 
         <md-divider></md-divider>
 
-        <div layout="column" layout-padding>
+        <div ng-show="$ctrl.location.$resolved" layout="column" layout-padding>
             <div>{{ $ctrl.location.neighborhood.name }} neighborhood</div>
             <div>{{ $ctrl.location.building_use.name }} usage</div>
             <div>{{ $ctrl.location.square_footage|number }} sq. ft.</div>
