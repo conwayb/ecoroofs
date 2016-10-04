@@ -75,7 +75,6 @@ in GeoServer, but that's not *too* hard:
   - Set `SQL statement` to
     `select id, point_obscured from locations_location`
   - In the `Attributes` section, click the `Refresh` link
-  - Check the box in the `Identifier` column for the `id` attribute
   - Set `Type` to `Point` and `SRID` to `4326` for the `point_obscured`
     attribute
   - `Save` (this will take you to the `Edit Layer` page)
