@@ -41,6 +41,9 @@
             </div>
             <div ng-if="$ctrl.location.contractor">
                 Contractor: {{ $ctrl.location.contractor.name }}
+	    </div>
+            <div>
+                {{ $ctrl.location.number_of_roofs|number }} roof(s) at this location
             </div>
         </div>
     </md-content>
