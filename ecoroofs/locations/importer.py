@@ -17,7 +17,7 @@ FIELD_NAME_MAP = {
     'Address_Clean': '',
     'Watershed': '',
     'Building Use': '',
-    'Solar over Ecoroof': '',
+    'Solar over Ecoroof': 'solar_over_ecoroof',
     'Type': '',
     'Year Built': 'year_built',
     'Size (sf)': 'square_footage',
@@ -188,6 +188,7 @@ class Importer:
             names.add(name)
 
             irrigated = self.as_bool(row['irrigated'], null=True)
+            solar_over_ecoroof = self.as_bool(row['solar_over_ecoroof'], null=True)
 
             number_of_roofs = row['number_of_roofs']
             if number_of_roofs is None:
@@ -246,6 +247,7 @@ class Importer:
                 point_obscured=point_obscured,
                 irrigated=irrigated,
                 number_of_roofs=number_of_roofs,
+                solar_over_ecoroof=solar_over_ecoroof,
                 square_footage=square_footage,
                 year_built=year_built,
                 building_use=building_use,
