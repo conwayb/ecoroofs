@@ -101,6 +101,7 @@ class Importer:
         data = self.read_data()
         self.column_to_table(data, BuildingUse)
         self.column_to_table(data, Watershed)
+        self.column_to_table(data, Contractor)
         self.insert_locations(data)
 
     def do_overwrite(self):
@@ -108,6 +109,7 @@ class Importer:
             Location,
             BuildingUse,
             Watershed,
+            Contractor,
         )
         for model in models_to_delete:
             self.print('Removing existing {model._meta.verbose_name_plural}...'.format(**locals()))
@@ -162,6 +164,7 @@ class Importer:
         locations = []
         building_uses = {r.name: r for r in BuildingUse.objects.all()}
         watersheds = {r.name: r for r in Watershed.objects.all()}
+        contractors = {r.name: r for r in Contractor.objects.all()}
 
         # Used to keep track of names already used so we can ensure each
         # location has a unique name and slug.
@@ -207,6 +210,7 @@ class Importer:
 
             building_use = self.choice(row, 'building_use', building_uses)
             watershed = self.choice(row, 'watershed', watersheds, null=True)
+            contractor = self.choice(row, 'contractor', contractors, null=True)
 
             # Actual coordinates
             coordinates = {'x': row['longitude'], 'y': row['latitude']}
@@ -235,6 +239,7 @@ class Importer:
                 year_built=year_built,
                 building_use=building_use,
                 watershed=watershed,
+                contractor=contractor,
             )
             location.set_neighborhood_automatically()
             locations.append(location)

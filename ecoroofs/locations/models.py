@@ -13,6 +13,7 @@ __all__ = [
     'Location',
     'BuildingUse',
     'Watershed',
+    'Contractor',
 ]
 
 
@@ -30,6 +31,7 @@ class Location(BaseModel):
 
     building_use = models.ForeignKey('BuildingUse')
     watershed = models.ForeignKey('Watershed', null=True, blank=True)
+    contractor = models.ForeignKey('Contractor', null=True, blank=True)
 
     neighborhood = models.ForeignKey('neighborhoods.Neighborhood', null=True, editable=False)
 
@@ -63,5 +65,10 @@ class BuildingUse(BaseModel):
 
 
 class Watershed(BaseModel):
+
+    pass
+
+
+class Contractor(BaseModel):
 
     pass
