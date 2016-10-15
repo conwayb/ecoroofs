@@ -100,6 +100,7 @@ class Importer:
             time.sleep(5)
         data = self.read_data()
         self.column_to_table(data, BuildingUse)
+        self.column_to_table(data, Contractor)
         self.column_to_table(data, Watershed)
         self.insert_locations(data)
 
@@ -107,6 +108,7 @@ class Importer:
         models_to_delete = (
             Location,
             BuildingUse,
+            Contractor,
             Watershed,
         )
         for model in models_to_delete:
@@ -161,6 +163,7 @@ class Importer:
     def insert_locations(self, data):
         locations = []
         building_uses = {r.name: r for r in BuildingUse.objects.all()}
+        contractors = {r.name: r for r in Contractor.objects.all()}
         watersheds = {r.name: r for r in Watershed.objects.all()}
 
         # Used to keep track of names already used so we can ensure each
@@ -206,6 +209,7 @@ class Importer:
                 year_built = int(year_built)
 
             building_use = self.choice(row, 'building_use', building_uses)
+            contractor = self.choice(row, 'contractor', contractors, null=True)
             watershed = self.choice(row, 'watershed', watersheds, null=True)
 
             # Actual coordinates
@@ -234,6 +238,7 @@ class Importer:
                 square_footage=square_footage,
                 year_built=year_built,
                 building_use=building_use,
+                contractor=contractor,
                 watershed=watershed,
             )
             location.set_neighborhood_automatically()

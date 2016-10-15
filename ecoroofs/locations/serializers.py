@@ -30,6 +30,12 @@ class NeighborhoodSerializer(serializers.ModelSerializer):
         fields = ('id', 'name', 'slug')
 
 
+class ContractorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Contractor
+
+
 class WatershedSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -46,6 +52,7 @@ class LocationSerializer(ModelSerializer):
     building_use = BuildingUseSerializer()
     neighborhood = NeighborhoodSerializer()
     watershed = WatershedSerializer()
+    contractor = ContractorSerializer()
 
 
 class PrivilegedLocationSerializer(LocationSerializer):
