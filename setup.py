@@ -21,7 +21,6 @@ setup(
         'djangorestframework>=3.4.7',
         'Markdown>=2.6.7',
         'psycopg2>=2.6.2',
-        'pytz>=2016.7',
         'psu.oit.arc.tasks',
     ],
     extras_require={
