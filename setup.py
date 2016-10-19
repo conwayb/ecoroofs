@@ -19,7 +19,6 @@ setup(
         'django-local-settings>=1.0b1',
         'django-pgcli>=0.0.2',
         'djangorestframework>=3.4.7',
-        'elasticsearch>=1.9.0,<2.0',
         'Markdown>=2.6.7',
         'psycopg2>=2.6.2',
         'pytz>=2016.7',
