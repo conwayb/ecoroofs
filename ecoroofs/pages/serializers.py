@@ -8,5 +8,6 @@ class PageSerializer(ModelSerializer):
 
     class Meta:
         model = Page
+        fields = '__all__'
 
     path = serializers.CharField()

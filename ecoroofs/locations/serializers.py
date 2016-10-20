@@ -21,6 +21,7 @@ class BuildingUseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BuildingUse
+        fields = '__all__'
 
 
 class NeighborhoodSerializer(serializers.ModelSerializer):
@@ -34,12 +35,14 @@ class ContractorSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Contractor
+        fields = '__all__'
 
 
 class WatershedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Watershed
+        fields = '__all__'
 
 
 class LocationSerializer(ModelSerializer):
