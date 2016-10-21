@@ -22,6 +22,7 @@ setup(
         'Markdown>=2.6.7',
         'psycopg2>=2.6.2',
         'psu.oit.arc.tasks',
+        'raven>=5.31.0',
     ],
     extras_require={
         'dev': [
