@@ -1,7 +1,7 @@
 FROM postgres:9.4
 
-ENV POSTGIS_MAJOR 2.2
-ENV POSTGIS_VERSION 2.2.2+dfsg-4.pgdg80+1
+ENV POSTGIS_MAJOR 2.1
+ENV POSTGIS_VERSION 2.1.4+dfsg-3
 
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends \
