@@ -25,6 +25,12 @@ class Location(BaseModel):
     point = PointField()
     point_obscured = PointField()
 
+    depth_min = models.DecimalField(
+        null=True, blank=True, decimal_places=1, max_digits=5,
+        verbose_name='Minimum depth in inches')
+    depth_max = models.DecimalField(
+        null=True, blank=True, decimal_places=1, max_digits=5,
+        verbose_name='Maximum depth in inches')
     irrigated = models.NullBooleanField()
     number_of_roofs = models.PositiveIntegerField(
         default=1, verbose_name='Number of unique roofs at this location')

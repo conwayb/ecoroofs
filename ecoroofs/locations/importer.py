@@ -1,6 +1,7 @@
 import csv
 import re
 import time
+from decimal import Decimal
 from sys import stderr
 
 from arcutils.colorize import printer
@@ -28,7 +29,8 @@ FIELD_NAME_MAP = {
     'Latitude': 'latitude_obscured',
     'Longitude': 'longitude_obscured',
     'Confidence': 'confidence_obscured',
-    'Depth': '',
+    'Depth Min': 'depth_min',
+    'Depth Max': 'depth_max',
     'Cost': '',
     'Composition': '',
     'Irrigation': 'irrigated',
@@ -190,6 +192,18 @@ class Importer:
             irrigated = self.as_bool(row['irrigated'], null=True)
             solar_over_ecoroof = self.as_bool(row['solar_over_ecoroof'], null=True)
 
+            depth_min = row['depth_min']
+            if depth_min is None:
+                self.warn('Depth Min is not set for location "{name}"'.format_map(locals()))
+            else:
+                depth_min = Decimal(depth_min)
+
+            depth_max = row['depth_max']
+            if depth_max is None:
+                self.warn('Depth Max is not set for location "{name}"'.format_map(locals()))
+            else:
+                depth_max = Decimal(depth_max)
+
             number_of_roofs = row['number_of_roofs']
             if number_of_roofs is None:
                 self.warn(
@@ -245,6 +259,8 @@ class Importer:
                 name=name,
                 point=point,
                 point_obscured=point_obscured,
+                depth_min=depth_min,
+                depth_max=depth_max,
                 irrigated=irrigated,
                 number_of_roofs=number_of_roofs,
                 solar_over_ecoroof=solar_over_ecoroof,

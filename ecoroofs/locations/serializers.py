@@ -56,6 +56,41 @@ class LocationSerializer(ModelSerializer):
     neighborhood = NeighborhoodSerializer()
     watershed = WatershedSerializer()
     contractor = ContractorSerializer()
+    depth = serializers.SerializerMethodField()
+
+    def get_depth(self, instance):
+        """Format depth field as a string.
+
+        If there's *only* a min depth or a max depth *or* if the min and
+        max depths are the same, return that value as a string.
+
+        If there's both a min and a max, return a string like ``m - n``.
+
+        In any case, depth values will only include up to two decimal
+        digits; insignificant trailing zeroes in the decimal part will
+        be removed (e.g., 3.0 becomes "3" and 3.10 becomes "3.1").
+
+        """
+        def convert(v):
+            if v is None:
+                return None
+            v = '{v:.2f}'.format(v=v)
+            v = v.rstrip('0').rstrip('.')
+            return v
+
+        depth_min = convert(instance.depth_min)
+        depth_max = convert(instance.depth_max)
+
+        if depth_min and depth_max and depth_min != depth_max:
+            depth = '{m} - {n}'.format(m=depth_min, n=depth_max)
+        elif depth_min:
+            depth = depth_min
+        elif depth_max:
+            depth = depth_max
+        else:
+            depth = None
+
+        return depth
 
 
 class PrivilegedLocationSerializer(LocationSerializer):
