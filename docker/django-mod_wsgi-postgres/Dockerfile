@@ -9,7 +9,7 @@ RUN yum upgrade -y
 
 RUN yum install -y epel-release
 RUN yum localinstall -y https://centos6.iuscommunity.org/ius-release.rpm
-RUN yum localinstall -y https://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-2.noarch.rpm
+RUN yum localinstall -y https://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-6-x86_64/pgdg-centos94-9.4-3.noarch.rpm
 RUN curl --silent --location https://rpm.nodesource.com/setup_6.x | bash -
 
 RUN yum groupinstall -y 'Development Tools'
