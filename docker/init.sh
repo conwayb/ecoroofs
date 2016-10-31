@@ -21,7 +21,7 @@ while [[ $# -gt 0 ]]; do
             ;;
         -h|--help)
             echo "Initialize Docker images"
-            echo "Usage: init.sh [-d] [-w DIR]"
+            echo "Usage: init.sh [-d] [-w DIR] [-o]"
             echo "    -d|--dry-run => Do dry run; don't actually build"
             echo "    -w|--where => Location of Docker spec directories [${DOCKER_DIR}]"
             echo "    -o|--dependencies-only => Only build dependencies"
