@@ -26,7 +26,7 @@ if [ ! -s "$PGDATA/PG_VERSION" ]; then
     # Replaces the default `listen_addresses = 'localhost'` with
     # `listen_addresses = '*'` to allow connections from outside the
     # container.
-    sed -ri "s/^#?(listen_addresses)\s*=\s*\S+.*/\1 = '*'!" "$PGDATA/postgresql.conf"
+    sed -ri "s/^#?(listen_addresses)\s*=\s*\S+.*/\1 = '*'/" "$PGDATA/postgresql.conf"
 
     # Temporary, localhost-only instance for running database
     # initialization commands.
