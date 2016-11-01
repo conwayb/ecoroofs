@@ -102,20 +102,20 @@ class Importer:
             time.sleep(5)
         data = self.read_data()
         self.column_to_table(data, BuildingUse)
+        self.column_to_table(data, Confidence)
+        self.column_to_table(data, ConstructionType)
         self.column_to_table(data, Contractor)
         self.column_to_table(data, Watershed)
-        self.column_to_table(data, ConstructionType)
-        self.column_to_table(data, Confidence)
         self.insert_locations(data)
 
     def do_overwrite(self):
         models_to_delete = (
             Location,
             BuildingUse,
+            Confidence,
+            ConstructionType,
             Contractor,
             Watershed,
-            ConstructionType,
-            Confidence,
         )
         for model in models_to_delete:
             self.print('Removing existing {model._meta.verbose_name_plural}...'.format(**locals()))
@@ -195,7 +195,7 @@ class Importer:
 
             names.add(name)
 
-            # addresses
+            # Addresses
             address = row['address']
             if address is None:
                 self.warn('Address is not set for location "{name}"'.format_map(locals()))
@@ -203,19 +203,23 @@ class Importer:
                 address = self.normalize_name(address)
             address_obscured = row['address_obscured']
             if address_obscured is None:
-                self.warn('Obscured Address is not set for location "{name}"'.format_map(locals()))
+                self.warn(
+                    'Address (Obscured) is not set for location "{name}"'
+                    .format_map(locals()))
             else:
                 address_obscured = self.normalize_name(address_obscured)
 
-            # textfields
+            # Text fields
             composition = row['composition']
-            plants = row['plants']
             drainage = row['drainage']
             maintenance = row['maintenance']
+            plants = row['plants']
 
+            # Booleans
             irrigated = self.as_bool(row['irrigated'], null=True)
             solar_over_ecoroof = self.as_bool(row['solar_over_ecoroof'], null=True)
 
+            # Numeric fields
             depth_min = row['depth_min']
             if depth_min is None:
                 self.warn('Depth Min is not set for location "{name}"'.format_map(locals()))
@@ -257,13 +261,13 @@ class Importer:
             else:
                 year_built = int(year_built)
 
+            # Related fields
             building_use = self.choice(row, 'building_use', building_uses)
+            confidence = self.choice(row, 'confidence', confidences, null=True)
+            construction_type = self.choice(row, 'construction_type', construction_types,
+                null=True)
             contractor = self.choice(row, 'contractor', contractors, null=True)
             watershed = self.choice(row, 'watershed', watersheds, null=True)
-            construction_type = self.choice(row, 'construction_type',
-                                            construction_types, null=True)
-            confidence = self.choice(row, 'confidence', confidences, null=True)
-
 
             # Actual coordinates
             coordinates = {'x': row['longitude'], 'y': row['latitude']}
@@ -284,27 +288,27 @@ class Importer:
                 continue
 
             location = Location(
-                name=name,
-                point=point,
-                point_obscured=point_obscured,
                 address=address,
                 address_obscured=address_obscured,
-                depth_min=depth_min,
-                depth_max=depth_max,
-                irrigated=irrigated,
-                number_of_roofs=number_of_roofs,
-                solar_over_ecoroof=solar_over_ecoroof,
-                square_footage=square_footage,
-                year_built=year_built,
                 building_use=building_use,
                 composition=composition,
-                plants=plants,
-                drainage=drainage,
-                maintenance=maintenance,
-                contractor=contractor,
                 confidence=confidence,
-                watershed=watershed,
                 construction_type=construction_type,
+                contractor=contractor,
+                depth_min=depth_min,
+                depth_max=depth_max,
+                drainage=drainage,
+                irrigated=irrigated,
+                maintenance=maintenance,
+                name=name,
+                number_of_roofs=number_of_roofs,
+                plants=plants,
+                point=point,
+                point_obscured=point_obscured,
+                solar_over_ecoroof=solar_over_ecoroof,
+                square_footage=square_footage,
+                watershed=watershed,
+                year_built=year_built,
             )
             location.set_neighborhood_automatically()
             locations.append(location)

@@ -35,33 +35,33 @@ class Location(BaseModel):
     address = models.TextField(
         null=True, blank=True, verbose_name='exact street address')
     address_obscured = models.TextField(
-            null=True, blank=True, verbose_name='obscured street address',
-            help_text="This street address is available to the public.")
+        null=True, blank=True, verbose_name='obscured street address',
+        help_text='This street address is available to the public.')
 
+    composition = models.TextField(null=True, blank=True)
     depth_min = models.DecimalField(
         null=True, blank=True, decimal_places=1, max_digits=5,
         verbose_name='Minimum depth in inches')
     depth_max = models.DecimalField(
         null=True, blank=True, decimal_places=1, max_digits=5,
         verbose_name='Maximum depth in inches')
+    drainage = models.TextField(null=True, blank=True)
     irrigated = models.NullBooleanField()
+    maintenance = models.TextField(null=True, blank=True)
     number_of_roofs = models.PositiveIntegerField(
         default=1, verbose_name='Number of unique roofs at this location')
+    plants = models.TextField(null=True, blank=True)
     solar_over_ecoroof = models.NullBooleanField()
     square_footage = models.PositiveIntegerField(null=True)
     year_built = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name='Year built')
 
-    construction_type = models.ForeignKey('ConstructionType', null=True, blank=True)
-    confidence = models.ForeignKey('Confidence', null=True, blank=True)
+    # Related fields
     building_use = models.ForeignKey('BuildingUse')
-    watershed = models.ForeignKey('Watershed', null=True, blank=True)
+    confidence = models.ForeignKey('Confidence', null=True, blank=True)
+    construction_type = models.ForeignKey('ConstructionType', null=True, blank=True)
     contractor = models.ForeignKey('Contractor', null=True, blank=True)
     neighborhood = models.ForeignKey('neighborhoods.Neighborhood', null=True, editable=False)
-
-    composition = models.TextField(null=True, blank=True)
-    plants = models.TextField(null=True, blank=True)
-    drainage = models.TextField(null=True, blank=True)
-    maintenance = models.TextField(null=True, blank=True)
+    watershed = models.ForeignKey('Watershed', null=True, blank=True)
 
     def set_neighborhood_automatically(self):
         """Set neighborhood via spatial contains query.
