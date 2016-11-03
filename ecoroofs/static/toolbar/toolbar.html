@@ -1,34 +1,30 @@
-<md-toolbar ng-cloak>
+<header>
+  <h1 ng-click="$ctrl.openSidenav()">Portland Ecoroof Map</h1>
+  <h3>Locate and explore
+      <span class="total__ft2">{{ $ctrl.totalSquareFootage|number }} ft<sup>2</sup></span>
+      <span class="total__m2" style="display:none;">{{ $ctrl.totalSquareFootage * 0.093 | number }} ft<sup>2</sup></span>
+      of ecoroofs in Portland, OR. <a href="!/pages/about" ng-click="$ctrl.close()">Learn more ... </a>
 
-  <header class="experiment-head">
+  </h3>
 
-  </header>
-
-
-
-    <div class="md-toolbar-tools">
-        <md-button title="Main Menu" class="md-icon-button" ng-click="$ctrl.openSidenav()">
-            <md-icon>menu</md-icon>
-        </md-button>
-
-        <h1>
-            <a href="#!/" title="Home">{{ $ctrl.appConfig.title }}</a>
-        </h1>
-
-        <span flex></span>
-
-        <span ng-if="$ctrl.totalSquareFootage" hide-xs>
-            {{ $ctrl.totalSquareFootage|number }} sq. ft.
-        </span>
-
-        <md-button href="/logout" title="Log out" class="md-icon-button"
-                   ng-if="$ctrl.user.isAuthenticated">
-            <md-icon>exit_to_app</md-icon>
-        </md-button>
+  <div class="toolbar__auth">
+    <div ng-if="!$ctrl.user.isAuthenticated">
+      <a title="Log in" href="/login">
+        <md-icon>account_circle</md-icon>
+      </a>
     </div>
 
+    <div ng-if="$ctrl.user.isAuthenticated">
+      {{ $ctrl.user.fullName }}
+      <a href="/admin/" ng-if="$ctrl.user.isStaff">Admin</a> |
+      <a href="/logout" title="Log out">Log Out</a>
+    </div>
+  </div>
+
+  <div class="toolbar__totals" ng-if="$ctrl.totalSquareFootage" hide-xs>
     <div id="activity-indicator" class="invisible">
         <md-progress-linear md-mode="indeterminate"></md-progress-linear>
     </div>
+  </div>
 
-</md-toolbar>
+</header>
