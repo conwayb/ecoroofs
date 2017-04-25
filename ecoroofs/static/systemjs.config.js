@@ -20,7 +20,6 @@
         'map',
         'pages',
         'toolbar',
-        'sidenav'
     ]
 
     const map = {

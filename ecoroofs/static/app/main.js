@@ -9,7 +9,6 @@ import MapInfoComponent from 'map/info.component';
 import MapSearchComponent from 'map/search.component';
 import MapComponent from 'map/map.component';
 import PageComponent from 'pages/page.component';
-import SidenavComponent from 'sidenav/sidenav.component';
 import ToolbarComponent from 'toolbar/toolbar.component';
 import locationResourceFactory from 'locations/location';
 import pageResourceFactory from 'pages/page';
@@ -30,7 +29,6 @@ const ecoroofsApp = angular
     .component('ecoroofsMapInfo', MapInfoComponent)
     .component('ecoroofsMapSearch', MapSearchComponent)
     .component('ecoroofsPage', PageComponent)
-    .component('ecoroofsSidenav', SidenavComponent)
     .component('ecoroofsToolbar', ToolbarComponent)
     .component('notFound', {
         template: `
