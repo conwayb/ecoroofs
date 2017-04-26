@@ -26,7 +26,7 @@ class LocationViewSet(ModelViewSet):
         if not term:
             raise ParseError('Missing search term (q query parameter)')
         search_query = SearchQuery(term)
-        q = Location.objects.annotate(search=SearchVector('name'))
+        q = Location.objects.annotate(search=SearchVector('name', 'address_obscured'))
         q = q.filter(search=search_query)
         serializer = self.get_serializer(q, many=True)
         return Response(serializer.data)
