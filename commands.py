@@ -46,7 +46,7 @@ class EcoRoofsDeployer(Deployer):
 deploy.deployer_class = EcoRoofsDeployer
 
 
-@command(env='dev', timed=True)
+@command(default_env='dev', timed=True)
 def import_all(config, reset_db=False,
                neighborhoods_shapefile_path='rlis/nbo_hood', from_srid=None,
                locations_file_name='locations.csv',
@@ -58,7 +58,7 @@ def import_all(config, reset_db=False,
     import_locations(config, locations_file_name, overwrite, dry_run, quiet)
 
 
-@command(env='dev', timed=True)
+@command(default_env='dev', timed=True)
 def import_locations(config, file_name='locations.csv', overwrite=False, dry_run=False, quiet=False):
     """Import locations from CSV file provided by client."""
     from arctasks.django import setup; setup()
@@ -67,9 +67,9 @@ def import_locations(config, file_name='locations.csv', overwrite=False, dry_run
     location_importer.run()
 
 
-@command(env='dev', timed=True)
 def import_neighborhoods(config, path='rlis/nbo_hood', from_srid=None, overwrite=True, dry_run=False,
                          quiet=False):
+@command(default_env='dev', timed=True)
     """Import neighborhoods from RLIS shapefile.
 
     We overwrite by default because doing so should be safe.
