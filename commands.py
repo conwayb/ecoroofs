@@ -54,22 +54,24 @@ def import_all(config, reset_db=False,
     if reset_db:
         reset_db(config)
         migrate(config)
-    import_neighborhoods(config, neighborhoods_shapefile_path, from_srid, overwrite, dry_run, quiet)
+    import_neighborhoods(
+        config, neighborhoods_shapefile_path, from_srid, overwrite, dry_run, quiet)
     import_locations(config, locations_file_name, overwrite, dry_run, quiet)
 
 
 @command(default_env='dev', timed=True)
-def import_locations(config, file_name='locations.csv', overwrite=False, dry_run=False, quiet=False):
+def import_locations(config, file_name='locations.csv', overwrite=False, dry_run=False,
+                     quiet=False):
     """Import locations from CSV file provided by client."""
-    from arctasks.django import setup; setup(config)
+    from arctasks.django import setup; setup(config)  # noqa
     from ecoroofs.locations.importer import Importer
     location_importer = Importer(file_name, overwrite=overwrite, dry_run=dry_run, quiet=quiet)
     location_importer.run()
 
 
-def import_neighborhoods(config, path='rlis/nbo_hood', from_srid=None, overwrite=True, dry_run=False,
-                         quiet=False):
 @command(default_env='dev', timed=True)
+def import_neighborhoods(config, path='rlis/nbo_hood', from_srid=None,
+                         overwrite=True, dry_run=False, quiet=False):
     """Import neighborhoods from RLIS shapefile.
 
     We overwrite by default because doing so should be safe.
@@ -84,7 +86,7 @@ def import_neighborhoods(config, path='rlis/nbo_hood', from_srid=None, overwrite
     corresponding ``--path`` option.
 
     """
-    from arctasks.django import setup; setup(config)
+    from arctasks.django import setup; setup(config)  # noqa
     from ecoroofs.neighborhoods.importer import Importer
     location_importer = Importer(
         path, from_srid=from_srid, overwrite=overwrite, dry_run=dry_run, quiet=quiet)
