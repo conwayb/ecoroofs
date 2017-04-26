@@ -1,15 +1,16 @@
-package := ecoroofs
 venv ?= .env
 venv_python ?= python3.5
 bin = $(venv)/bin
-arctasks = $(venv)/lib/$(venv_python)/site-packages/arctasks/__init__.py
+site_packages = $(venv)/lib/$(venv_python)/site-packages
+
+arctasks = $(site_packages)/arctasks
+arctasks_url = https://github.com/PSU-OIT-ARC/arctasks/archive/master.tar.gz#egg=psu.oit.arc.tasks
 
 # The init task creates a temporary virtualenv with arctasks installed
 # for bootstrapping purposes and then delegates to the arctasks init
 # task to do the actual initialization.
-init: $(venv) local.dev.cfg local.docker.cfg local.test.cfg $(arctasks)
-	$(bin)/inv init
-	$(bin)/inv test
+init: $(venv) local.dev.cfg local.test.cfg $(arctasks)
+	$(bin)/runcommand init
 
 reinit: clean-egg-info clean-pyc clean-venv init
 
@@ -36,8 +37,10 @@ docker-init: local.docker.cfg
 	        exit 0; \
 	    fi
 
+install-arctasks: $(arctasks)
+
 $(arctasks):
-	$(bin)/pip install git+https://github.com/PSU-OIT-ARC/arctasks#egg=psu.oit.arc.tasks
+	$(bin)/pip install -f https://pypi.research.pdx.edu/dist/ $(arctasks_url)
 
 local.dev.cfg:
 	echo '[dev]' >> $@
@@ -53,14 +56,13 @@ local.test.cfg:
 
 $(venv):
 	virtualenv -p $(venv_python) $(venv)
-clean-venv:
-	rm -rf $(venv)
 
 test:
-	$(bin)/inv test
+	$(bin)/runcommand test
 
 run:
-	$(bin)/inv runserver
+	$(bin)/runcommand runserver
+
 run-docker: docker-init
 	@echo "NOTE: It may take a minute or so for all the Docker services to come up." 1>&2
 	@echo "NOTE: GeoServer is especially slow." 1>&2
@@ -68,7 +70,7 @@ run-docker: docker-init
 
 to ?= stage
 deploy:
-	$(bin)/inv --echo configure --env $(to) deploy
+	$(bin)/runcommand --echo --env $(to) deploy
 
 clean: clean-pyc
 clean-all: clean-build clean-dist clean-egg-info clean-node_modules clean-pyc clean-static clean-venv
@@ -87,6 +89,8 @@ clean-static:
 	rm -rf static
 	rm -rf $(package)/static/bundles
 	find $(package)/static -name '*.css' -type f -print0 | xargs -0 rm
+clean-venv:
+	rm -rf $(venv)
 
 .PHONY = init reinit docker-init test run run-docker deploy \
          clean clean-all clean-build clean-dist clean-egg-info clean-node_modules clean-pyc \
