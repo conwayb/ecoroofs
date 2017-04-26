@@ -61,7 +61,7 @@ def import_all(config, reset_db=False,
 @command(default_env='dev', timed=True)
 def import_locations(config, file_name='locations.csv', overwrite=False, dry_run=False, quiet=False):
     """Import locations from CSV file provided by client."""
-    from arctasks.django import setup; setup()
+    from arctasks.django import setup; setup(config)
     from ecoroofs.locations.importer import Importer
     location_importer = Importer(file_name, overwrite=overwrite, dry_run=dry_run, quiet=quiet)
     location_importer.run()
@@ -84,7 +84,7 @@ def import_neighborhoods(config, path='rlis/nbo_hood', from_srid=None, overwrite
     corresponding ``--path`` option.
 
     """
-    from arctasks.django import setup; setup()
+    from arctasks.django import setup; setup(config)
     from ecoroofs.neighborhoods.importer import Importer
     location_importer = Importer(
         path, from_srid=from_srid, overwrite=overwrite, dry_run=dry_run, quiet=quiet)
