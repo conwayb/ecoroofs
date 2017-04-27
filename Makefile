@@ -64,10 +64,18 @@ test:
 run:
 	$(bin)/runcommand runserver
 
-run-docker: docker-init
+run-docker: docker-init docker-externals
 	@echo "NOTE: It may take a minute or so for all the Docker services to come up." 1>&2
 	@echo "NOTE: GeoServer is especially slow." 1>&2
 	docker-compose up
+
+run-services: docker-externals
+	cd docker/services/$(package) && docker-compose up
+
+docker-externals:
+	docker network create --driver bridge $(package) || echo "$(package) network exists"
+	docker volume create --name $(package)-geoserver-data
+	docker volume create --name $(package)-postgres-data
 
 to ?= stage
 deploy:
@@ -93,6 +101,6 @@ clean-static:
 clean-venv:
 	rm -rf $(venv)
 
-.PHONY = init reinit docker-init test run run-docker deploy \
+.PHONY = init reinit docker-externals docker-init test run run-docker run-services deploy \
          clean clean-all clean-build clean-dist clean-egg-info clean-node_modules clean-pyc \
          clean-static clean-venv

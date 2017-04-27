@@ -3,7 +3,6 @@
 /.env/
 /build/
 /dist/
-/geoserver/data_dir/
 /media/
 /rlis/
 /static/
