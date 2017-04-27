@@ -1,3 +1,4 @@
+package = ecoroofs
 venv ?= .env
 venv_python ?= python3.5
 bin = $(venv)/bin
