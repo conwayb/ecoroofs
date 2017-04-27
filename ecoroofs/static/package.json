@@ -22,6 +22,7 @@
     "core-js": "^2.4.1",
     "gulp": "^3.9.1",
     "node-sass": "^3.13.1",
+    "postcss-clean": "^1.0.2",
     "postcss-cli": "^2.6.0",
     "systemjs": "^0.19.47",
     "systemjs-builder": "^0.15.36",
