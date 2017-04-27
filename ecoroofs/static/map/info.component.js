@@ -10,7 +10,7 @@ const ContentComponent = {
         // TODO: Use the current width of the sidenav instead of hard
         // TODO: coding this. Not sure of the best way to do this since
         // TODO: it's not easy to get the width of a sidenav.
-        const width = 320;
+        const width = 400;
         const buffer = 20;
         const bufferedWidth = width + buffer;
 
