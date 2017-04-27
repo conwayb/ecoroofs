@@ -1,3 +1,5 @@
+import pkg_resources
+
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 
@@ -23,6 +25,11 @@ class AppView(APIView):
 
     def get(self, request):
         user = request.user
+        initials = None
+        if not user.is_anonymous():
+            initials = "{}{}".format(user.first_name[0], user.last_name[0])
+
+        dist = pkg_resources.get_distribution('psu.oit.wdt.ecoroofs')
         return Response({
             'CDN_URLS': {
                 'css': get_setting('CDN_URLS.css'),
@@ -36,6 +43,7 @@ class AppView(APIView):
             # Config that's passed through to the JavaScript app.
             'APP_CONFIG': {
                 'env': settings.ENV,
+                'version': dist.version,
                 'baseURL': staticfiles_storage.url(''),
                 'title': settings.PROJECT.title,
                 'user': {
@@ -44,6 +52,7 @@ class AppView(APIView):
                     'fullName': user.get_full_name() if not user.is_anonymous() else None,
                     'isStaff': user.is_staff,
                     'isSuperuser': user.is_superuser,
+                    'initials': initials
                 },
                 'map': settings.MAP,
             },

@@ -12,11 +12,40 @@
         <md-icon>account_circle</md-icon>
       </a>
     </div>
-
-    <div ng-if="$ctrl.user.isAuthenticated">
-      <a href="/admin/" ng-if="$ctrl.user.isStaff">{{ $ctrl.user.fullName }}</a>
-      <a href="/logout" title="Log out">Log Out</a>
-    </div>
+    <md-menu ng-if="$ctrl.user.isAuthenticated">
+        <md-button class="md-fab md-mini" ng-click="$mdOpenMenu($event)">
+            <span>{{ $ctrl.user.initials }}</span>
+        </md-button>
+        <md-menu-content width="4">
+            <md-menu-item>
+                <div>
+                    <md-icon>account_circle</md-icon>
+                    <span style="margin-left: 16px">
+                        {{ $ctrl.user.fullName }}
+                    </span>
+                </div>
+            </md-menu-item>
+            <md-divider></md-divider>
+            <md-menu-item ng-if="$ctrl.user.isStaff">
+                <md-button ng-href="/admin">
+                    <md-icon>build</md-icon>
+                    Admin
+                </md-button>
+            </md-menu-item>
+            <md-divider></md-divider>
+            <md-menu-item>
+                <md-button href="/logout" class="md-warn">
+                    <md-icon>exit_to_app</md-icon>
+                    Log out
+                </md-button>
+            </md-menu-item>
+            <md-divider></md-divider>
+            <md-menu-item>
+                <small>Version:</small>
+                <small>{{ $ctrl.appConfig.version }}</small>
+            <md-menu-item>
+        </md-menu-content>
+    </md-menu>
   </div>
 
 

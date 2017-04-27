@@ -91,9 +91,7 @@ header {
 	bottom: 15px;
 	right: 10px;
 	text-align: right;
-	z-index: 999;
 }
-
 
 
 md-icon.md-default-theme, md-icon.material-icons {
@@ -206,8 +204,8 @@ ecoroofs-map-search {
   table.md-sidebar--data {
     @include float_full();
 		width: 95%;
-    font-size: .9em;
-    line-height: 1.3em;
+        font-size: .9em;
+        line-height: 1.3em;
 		animation: simple-opacity 300ms forwards;
 		animation-fill-mode: both;
 
@@ -226,7 +224,7 @@ ecoroofs-map-search {
       padding-right: 20px;
       text-transform: uppercase;
       letter-spacing: 1px;
-			vertical-align: top;
+	  vertical-align: top;
     }
   }
 }
@@ -277,7 +275,11 @@ ecoroofs-map-search {
 
 	header h3 { display: none;}
 
-	.logos {
+    .toolbar__auth {
+        top: 5px;
+    }
+
+    .logos {
 		margin: 1em 0;
 		width: 45%;
 		height: auto;
@@ -285,8 +287,8 @@ ecoroofs-map-search {
 
 	ecoroofs-map-search {
 		top: 0px;
-	  left: 0px;
-	  min-width: 100%;
+	    left: 0px;
+	    min-width: 100%;
 		width: 100%;
 	}
 
