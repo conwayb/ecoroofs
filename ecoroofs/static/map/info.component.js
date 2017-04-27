@@ -46,11 +46,10 @@ const ContentComponent = {
                 const y = centerPixel[1];
                 const newX = x + bufferedWidth;
                 const newCenter = map.getCoordinateFromPixel([newX, y]);
-                const panimation = ol.animation.pan({
-                    source: map.getView().getCenter(),
-                    duration: 200
-                })
-                map.beforeRender(panimation);
+                mapView.animate({
+                  center: mapView.getCenter(),
+                  duration: 200
+                });
                 mapView.setCenter(newCenter);
             }
         };

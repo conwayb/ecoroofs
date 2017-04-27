@@ -52,7 +52,7 @@ const SearchComponent = {
                     }
                     mapSource.addFeatures(features);
                     if (numSearchResults > 1) {
-                        mapView.fit(ol.extent.buffer(mapSource.getExtent(), 500), map.getSize());
+                        mapView.fit(ol.extent.buffer(mapSource.getExtent(), 500));
                     } else {
                         mapView.setCenter(coordinates);
                     }
