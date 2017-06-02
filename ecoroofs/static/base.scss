@@ -255,6 +255,35 @@ ecoroofs-map-search {
     left: auto;
 }
 
+/* bottom-left control */
+.ol-control.layer-switch {
+    bottom: 8px;
+    left: 8px;
+    top: auto;
+    right: auto;
+    background-size: 62px 62px;
+    background-repeat: no-repeat;
+
+    &.Road button{
+        background-image: url("road_layer.png");
+    }
+
+    &.Satellite button{
+        background-image: url("satellite_layer.png");
+    }
+
+    button {
+        width: 64px;
+        height: 64px;
+
+        span {
+            font-size: 0.65em;
+            position: relative;
+            top: 15px;
+        }
+    }
+}
+
 
 /* Mobile Overrides */
 
