@@ -15,11 +15,11 @@ setup(
     zip_safe=False,
     install_requires=[
         'django>=1.10.7,<1.11',
-        'django-arcutils>=2.17.0',
+        'django-arcutils>=2.22.0',
         'django-pgcli>=0.0.2',
-        'djangorestframework>=3.6.2',
+        'djangorestframework>=3.6.3',
         'Markdown>=2.6.8',
-        'psycopg2>=2.7.1',
+        'psycopg2>=2.7.3',
         'psu.oit.arc.tasks',
     ],
     extras_require={
