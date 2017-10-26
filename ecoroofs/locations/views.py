@@ -31,7 +31,9 @@ class LocationViewSet(ModelViewSet):
         term = request.query_params.get('q', '').strip()
         if term:
             search_query = SearchQuery(term)
-            q = q.annotate(search=SearchVector('name', 'address_obscured'))
+            q = q.annotate(search=SearchVector(
+                'name', 'neighborhood__name')
+            )
             q = q.filter(search=search_query)
 
         # Filters
