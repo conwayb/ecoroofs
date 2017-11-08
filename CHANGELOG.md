@@ -1,6 +1,6 @@
 # Change log for EcoRoofs
 
-## 1.1.0 - unreleased
+## 1.1.0 - 2017-11-08
 
 In progress...
 
